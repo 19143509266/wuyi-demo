@@ -29,8 +29,8 @@ const Canvas = () => {
     if (!ctx) return
     const w = 800
     const h = 500
-    cvs.width = w * window.devicePixelRatio
-    cvs.height = h * window.devicePixelRatio
+    cvs.width = w * devicePixelRatio
+    cvs.height = h * devicePixelRatio
     cvs.style.width = `${w}px`
     cvs.style.height = `${h}px`
     cvs.style.backgroundColor = '#808080'

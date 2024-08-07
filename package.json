@@ -7,13 +7,14 @@
     "format": "prettier --cache --write .",
     "postinstall": "max setup",
     "setup": "max setup",
-    "start": "npm run dev"
+    "start": "cross-env PORT=4869 npm run dev"
   },
   "dependencies": {
     "@ant-design/icons": "^5.0.1",
     "@ant-design/pro-components": "^2.4.4",
     "@umijs/max": "^4.3.11",
-    "antd": "^5.4.0"
+    "antd": "^5.20.0",
+    "cross-env": "^7.0.3"
   },
   "devDependencies": {
     "@types/react": "^18.0.33",

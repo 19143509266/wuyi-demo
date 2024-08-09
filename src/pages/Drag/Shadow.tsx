@@ -19,12 +19,14 @@ const Shadow = (props: Props) => {
 
   const styleInfo = useMemo(() => {
     // 计算阴影左上角对齐到网格的位置
-    let left = Math.floor((shadowPosition.x - SLIDER_WIDTH) / matrixWidth) * matrixWidth
-    let top = Math.floor(shadowPosition.y / matrixHeight) * matrixHeight
+    let left = Math.round((shadowPosition.x - SLIDER_WIDTH) / matrixWidth) * matrixWidth
+    let top = Math.round(shadowPosition.y / matrixHeight) * matrixHeight
 
     // 调整宽度和高度，使其为单元格大小的整数倍
-    const adjustedWidth = Math.floor(200 / matrixWidth) * matrixWidth
-    const adjustedHeight = Math.floor(150 / matrixHeight) * matrixHeight
+    const adjustedWidth = Math.round(200 / matrixWidth) * matrixWidth
+    const adjustedHeight = Math.round(150 / matrixHeight) * matrixHeight
+
+    console.log(adjustedWidth)
 
     const style = {
       transform: `translate(${left}px, ${top}px) rotate(0deg)`,

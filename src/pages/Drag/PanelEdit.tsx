@@ -40,7 +40,7 @@ const PanelEdit = (props: Props) => {
           style={{
             width: getPcMatrix('x', item.sizeX),
             height: getPcMatrix('y', item.sizeY),
-            background: '#fff',
+            background: '#fff000',
             transform: `translate(${getPcMatrix('x', item.x)}px, ${getPcMatrix('y', item.y)}px)`,
             position: 'absolute',
             zIndex: 999

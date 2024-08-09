@@ -195,8 +195,8 @@ export const useComponentPositionAndSize = (
     const matrixWidth = window.innerWidth - SLIDER_WIDTH
     const matrixHeight = window.innerHeight
 
-    const calculatedMatrixX = Math.floor((clientX - SLIDER_WIDTH) / (matrixWidth / pcMatrixCount.x))
-    const calculatedMatrixY = Math.floor(clientY / (matrixHeight / pcMatrixCount.y))
+    const calculatedMatrixX = Math.round((clientX - SLIDER_WIDTH) / (matrixWidth / pcMatrixCount.x))
+    const calculatedMatrixY = Math.round(clientY / (matrixHeight / pcMatrixCount.y))
 
     const calculatedSizeX = Math.round((componentWidth / matrixWidth) * pcMatrixCount.x)
     const calculatedSizeY = Math.round((componentHeight / matrixHeight) * pcMatrixCount.y)

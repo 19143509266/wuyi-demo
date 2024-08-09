@@ -1,10 +1,11 @@
 import { useCallback, useEffect, useRef, useState } from 'react'
 import { DragItem, pcCanvasSize, pcMatrixCount, scaleType, SLIDER_WIDTH } from './drag'
-import { getDeltaInMatrix } from './utils'
+import { checkUpElement, getDeltaInMatrix, handleCollision } from './utils'
 
 export const useReSize = (
   curComponent: DragItem | null,
   setCurComponent: React.Dispatch<React.SetStateAction<DragItem | null>>,
+  componentData: DragItem[],
   setComponentData: React.Dispatch<React.SetStateAction<DragItem[]>>,
   scale: scaleType
 ) => {
@@ -22,93 +23,87 @@ export const useReSize = (
       const initialY = curComponentRef.current?.y || 0
 
       const onMouseMove = (moveEvent: MouseEvent) => {
+        if (!curComponentRef.current) return
         const deltaX = Math.round(getDeltaInMatrix('x', moveEvent.clientX - startX, scale))
         const deltaY = Math.round(getDeltaInMatrix('y', moveEvent.clientY - startY, scale))
 
-        setCurComponent(prev => {
-          if (!prev) return null
+        let newSizeX = initialSizeX
+        let newSizeY = initialSizeY
+        let newX = initialX
+        let newY = initialY
 
-          let newSizeX = initialSizeX
-          let newSizeY = initialSizeY
-          let newX = initialX
-          let newY = initialY
+        switch (pos) {
+          case 'tl':
+            newSizeX = initialSizeX - deltaX
+            newSizeY = initialSizeY - deltaY
+            newX = initialX + deltaX
+            newY = initialY + deltaY
+            break
+          case 'tm':
+            newSizeY = initialSizeY - deltaY
+            newY = initialY + deltaY
+            break
+          case 'tr':
+            newSizeX = initialSizeX + deltaX
+            newSizeY = initialSizeY - deltaY
+            newY = initialY + deltaY
+            break
+          case 'ml':
+            newSizeX = initialSizeX - deltaX
+            newX = initialX + deltaX
+            break
+          case 'mr':
+            newSizeX = initialSizeX + deltaX
+            break
+          case 'bl':
+            newSizeX = initialSizeX - deltaX
+            newSizeY = initialSizeY + deltaY
+            newX = initialX + deltaX
+            break
+          case 'bm':
+            newSizeY = initialSizeY + deltaY
+            break
+          case 'br':
+            newSizeX = initialSizeX + deltaX
+            newSizeY = initialSizeY + deltaY
+            break
+          default:
+            break
+        }
 
-          switch (pos) {
-            case 'tl':
-              newSizeX = initialSizeX - deltaX
-              newSizeY = initialSizeY - deltaY
-              newX = initialX + deltaX
-              newY = initialY + deltaY
-              break
-            case 'tm':
-              newSizeY = initialSizeY - deltaY
-              newY = initialY + deltaY
-              break
-            case 'tr':
-              newSizeX = initialSizeX + deltaX
-              newSizeY = initialSizeY - deltaY
-              newY = initialY + deltaY
-              break
-            case 'ml':
-              newSizeX = initialSizeX - deltaX
-              newX = initialX + deltaX
-              break
-            case 'mr':
-              newSizeX = initialSizeX + deltaX
-              break
-            case 'bl':
-              newSizeX = initialSizeX - deltaX
-              newSizeY = initialSizeY + deltaY
-              newX = initialX + deltaX
-              break
-            case 'bm':
-              newSizeY = initialSizeY + deltaY
-              break
-            case 'br':
-              newSizeX = initialSizeX + deltaX
-              newSizeY = initialSizeY + deltaY
-              break
-            default:
-              break
-          }
+        // 边界判断
+        if (newX + newSizeX > pcMatrixCount.x) {
+          newX = pcMatrixCount.x - (curComponentRef.current?.sizeX || 0)
+          newSizeX = curComponentRef.current?.sizeX || 0
+        }
+        if (newX < 0) {
+          newX = 0
+          newSizeX = curComponentRef.current?.sizeX || 0
+        }
+        if (newY < 0) {
+          newY = 0
+          newSizeY = curComponentRef.current?.sizeY || 0
+        }
 
-          // 边界判断
-          if (newX + newSizeX > pcMatrixCount.x) {
-            newX = pcMatrixCount.x - (curComponentRef.current?.sizeX || 0)
-            newSizeX = curComponentRef.current?.sizeX || 0
-          }
-          if (newX < 0) {
-            newX = 0
-            newSizeX = curComponentRef.current?.sizeX || 0
-          }
-          if (newY < 0) {
-            newY = 0
-            newSizeY = curComponentRef.current?.sizeY || 0
-          }
+        const potentialNewComponent = {
+          ...curComponentRef.current,
+          sizeX: newSizeX,
+          sizeY: newSizeY,
+          x: newX,
+          y: newY
+        }
 
-          return {
-            ...prev,
-            sizeX: newSizeX,
-            sizeY: newSizeY,
-            x: newX,
-            y: newY
-          }
-        })
+        // 处理碰撞
+        const hasCollision = handleCollision(
+          potentialNewComponent,
+          setCurComponent,
+          setComponentData
+        )
 
-        setComponentData(prev => {
-          return prev.map(item => {
-            if (item.id === curComponentRef.current?.id) {
-              return {
-                ...item,
-                sizeX: curComponentRef.current?.sizeX,
-                sizeY: curComponentRef.current?.sizeY,
-                x: curComponentRef.current?.x,
-                y: curComponentRef.current?.y
-              }
-            }
-            return item
-          })
-        })
+        if (!hasCollision) {
+          setCurComponent(potentialNewComponent)
+          checkUpElement(curComponentRef.current, setComponentData, false)
+        }
       }
 
       const onMouseUp = () => {
@@ -119,7 +114,7 @@ export const useReSize = (
       window.addEventListener('mousemove', onMouseMove)
       window.addEventListener('mouseup', onMouseUp)
     },
-    [setCurComponent, setComponentData, scale]
+    [curComponent, setCurComponent, componentData, setComponentData, scale]
   )
 
   return { handleResizeMouseDown }
@@ -129,11 +124,14 @@ export const useReSize = (
 export const useMoveMouseDown = (
   curComponent: DragItem | null,
   setCurComponent: React.Dispatch<React.SetStateAction<DragItem | null>>,
+  componentData: DragItem[],
   setComponentData: React.Dispatch<React.SetStateAction<DragItem[]>>,
   scale: scaleType
 ) => {
   const curComponentRef = useRef(curComponent)
   curComponentRef.current = curComponent
+  const gridHeight = (pcCanvasSize.height * scale.y) / pcMatrixCount.y
+  const gridWidth = (pcCanvasSize.width * scale.x) / pcMatrixCount.x
 
   const handleMoveMouseDown = useCallback(
     (e: React.MouseEvent) => {
@@ -144,45 +142,30 @@ export const useMoveMouseDown = (
       const initialY = curComponentRef.current?.y || 0
 
       const onMouseMove = (moveEvent: MouseEvent) => {
+        if (!curComponentRef.current) return
         const deltaX = Math.round(getDeltaInMatrix('x', moveEvent.clientX - startX, scale))
         const deltaY = Math.round(getDeltaInMatrix('y', moveEvent.clientY - startY, scale))
 
-        setCurComponent(prev => {
-          if (!prev) return null
+        let newX = initialX + deltaX
+        let newY = Math.round((initialY + deltaY) / gridHeight) * gridHeight
 
-          let newX = initialX + deltaX
-          let newY = initialY + deltaY
+        // 确保元素不越界
+        newX = Math.min(Math.max(newX, 0), pcMatrixCount.x - (curComponentRef.current?.sizeX || 0))
+        newY = Math.max(newY, 0)
 
-          // 边界判断
-          if (newX + (curComponentRef.current?.sizeX || 0) > pcMatrixCount.x) {
-            newX = pcMatrixCount.x - (curComponentRef.current?.sizeX || 0)
-          }
-          if (newX < 0) {
-            newX = 0
-          }
-          if (newY < 0) {
-            newY = 0
-          }
+        const potentialNewComponent = { ...curComponentRef.current, x: newX, y: newY }
 
-          return {
-            ...prev,
-            x: newX,
-            y: newY
-          }
-        })
+        // 处理碰撞
+        const hasCollision = handleCollision(
+          potentialNewComponent,
+          setCurComponent,
+          setComponentData
+        )
 
-        setComponentData(prev => {
-          return prev.map(item => {
-            if (item.id === curComponentRef.current?.id) {
-              return {
-                ...item,
-                x: curComponentRef.current?.x,
-                y: curComponentRef.current?.y
-              }
-            }
-            return item
-          })
-        })
+        if (!hasCollision) {
+          setCurComponent(potentialNewComponent)
+          checkUpElement(curComponentRef.current, setComponentData, false)
+        }
       }
 
       const onMouseUp = () => {
@@ -193,7 +176,7 @@ export const useMoveMouseDown = (
       window.addEventListener('mousemove', onMouseMove)
       window.addEventListener('mouseup', onMouseUp)
     },
-    [curComponent, setCurComponent, setComponentData, scale]
+    [curComponent, setCurComponent, componentData, setComponentData, scale]
   )
 
   return { handleMoveMouseDown }

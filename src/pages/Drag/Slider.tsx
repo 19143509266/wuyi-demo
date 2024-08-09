@@ -3,6 +3,7 @@ import Styles from './index.less'
 import { DragItem, scaleType, ShadowPositionType, SLIDER_WIDTH } from './drag'
 import { v4 as uuidv4 } from 'uuid'
 import { useComponentPositionAndSize } from './hooks'
+import { checkUpElement } from './utils'
 
 type Props = {
   setShadowPosition: (val: ShadowPositionType) => void
@@ -44,6 +45,7 @@ const Slider = (props: Props) => {
         sizeY: sizeY
       }
       setComponentData((pre: DragItem[]) => [...pre, newComponent])
+      checkUpElement(newComponent, setComponentData, true)
     }
   }
 

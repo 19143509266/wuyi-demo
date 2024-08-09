@@ -17,12 +17,14 @@ const PanelEdit = (props: Props) => {
   const { handleResizeMouseDown } = useReSize(
     curComponent,
     setCurComponent,
+    componentData,
     setComponentData,
     scale
   )
   const { handleMoveMouseDown } = useMoveMouseDown(
     curComponent,
     setCurComponent,
+    componentData,
     setComponentData,
     scale
   )

@@ -1,0 +1,123 @@
+.big-box {
+    width: 100%;
+    height: 100%;
+    display: flex;
+}
+
+.panel-edit {
+    height: 100%;
+    position: relative;
+    background: #f0f0f0;
+}
+
+.shadow {
+    position: absolute;
+    background: #409eff;
+    opacity: 0.4;
+}
+
+.slider {
+    height: 100%;
+    background-color: aliceblue;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 12px;
+    box-sizing: border-box;
+
+    .item {
+        width: 200px;
+        height: 40px;
+        margin: 12px;
+        cursor: pointer;
+        background-color: antiquewhite;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+}
+
+.outline {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    outline: 1px solid #70c0ff;
+}
+
+.handle {
+    position: absolute;
+    width: 8px;
+    height: 8px;
+    background: #fff;
+    border: 1px solid #70c0ff;
+    z-index: 999;
+    border-radius: 50%;
+}
+
+/* 使用通用的定位样式 */
+.handle-tl,
+.handle-br {
+    cursor: nw-resize;
+}
+
+.handle-tr,
+.handle-bl {
+    cursor: ne-resize;
+}
+
+.handle-tm,
+.handle-bm {
+    cursor: n-resize;
+}
+
+.handle-ml,
+.handle-mr {
+    cursor: w-resize;
+}
+
+/* 各个方向的具体定位 */
+.handle-tl {
+    top: -5px;
+    left: -5px;
+}
+
+.handle-tm {
+    top: -5px;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+.handle-tr {
+    top: -5px;
+    right: -5px;
+}
+
+.handle-ml {
+    top: 50%;
+    left: -5px;
+    transform: translateY(-50%);
+}
+
+.handle-mr {
+    top: 50%;
+    right: -5px;
+    transform: translateY(-50%);
+}
+
+.handle-bl {
+    bottom: -5px;
+    left: -5px;
+}
+
+.handle-bm {
+    bottom: -5px;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+.handle-br {
+    bottom: -5px;
+    right: -5px;
+}

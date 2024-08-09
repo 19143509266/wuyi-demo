@@ -20,6 +20,9 @@ dependencies:
   umi:
     specifier: ^4.3.3
     version: 4.3.3(@babel/core@7.25.2)(@types/react@18.3.3)(eslint@8.57.0)(prettier@3.3.3)(react-dom@18.3.1)(react@18.3.1)(stylelint@14.16.1)(typescript@5.5.3)(webpack@5.93.0)
+  uuid:
+    specifier: ^10.0.0
+    version: 10.0.0
 
 devDependencies:
   '@types/react':
@@ -28,6 +31,9 @@ devDependencies:
   '@types/react-dom':
     specifier: ^18.3.0
     version: 18.3.0
+  '@types/uuid':
+    specifier: ^10.0.0
+    version: 10.0.0
   cross-env:
     specifier: ^7.0.3
     version: 7.0.3
@@ -2126,6 +2132,10 @@ packages:
   /@types/semver@7.5.8:
     resolution: {integrity: sha512-I8EUhyrgfLrcTkzV3TSsGyl1tSuPrEDzr0yd5m90UgNxQkyDXULk3b6MlQqTCpZpNtWe1K0hzclnZkTcLBe2UQ==}
     dev: false
+
+  /@types/uuid@10.0.0:
+    resolution: {integrity: sha512-7gqG38EyHgyP1S+7+xomFtL+ZNHcKv6DwNaCZmJmo1vgMugyF3TCnXVg4t1uk89mLNwnLtnY3TpOpCOyp1/xHQ==}
+    dev: true
 
   /@types/yargs-parser@21.0.3:
     resolution: {integrity: sha512-I4q9QU9MQv4oEOz4tAHJtNz1cwuLxn2F3xcc2iV5WdqLPpUnj30aUuxt1mAxYTG+oe8CZMV/+6rU4S4gRDzqtQ==}
@@ -9662,6 +9672,11 @@ packages:
   /utils-merge@1.0.1:
     resolution: {integrity: sha512-pMZTvIkT1d+TFGvDOqodOclx0QWkkgi6Tdoa8gC8ffGAAqz9pzPTZWAybbsHHoED/ztMtkv/VoYTYyShUn81hA==}
     engines: {node: '>= 0.4.0'}
+    dev: false
+
+  /uuid@10.0.0:
+    resolution: {integrity: sha512-8XkAphELsDnEGrDxUOHB3RGvXz6TeuYSGEZBOjtTtPm2lwhGBjLgOzLHB63IUWfBpNucQjND6d3AOudO+H3RWQ==}
+    hasBin: true
     dev: false
 
   /v8-compile-cache@2.4.0:

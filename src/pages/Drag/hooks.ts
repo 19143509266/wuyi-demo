@@ -193,7 +193,7 @@ export const useMoveMouseDown = (
       window.addEventListener('mousemove', onMouseMove)
       window.addEventListener('mouseup', onMouseUp)
     },
-    [curComponent, setCurComponent, setComponentData]
+    [curComponent, setCurComponent, setComponentData, scale]
   )
 
   return { handleMoveMouseDown }

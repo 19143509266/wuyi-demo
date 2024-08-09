@@ -2,28 +2,24 @@
   "private": true,
   "author": "五一 <982936872@qq.com>",
   "scripts": {
-    "dev": "max dev",
-    "build": "max build",
-    "format": "prettier --cache --write .",
-    "postinstall": "max setup",
-    "setup": "max setup",
-    "start": "cross-env PORT=4869 npm run dev"
+    "dev": "cross-env PORT=4869 umi dev",
+    "build": "umi build",
+    "postinstall": "umi setup",
+    "setup": "umi setup",
+    "start": "npm run dev",
+    "build:ts": "tsc"
   },
   "dependencies": {
-    "@ant-design/icons": "^5.0.1",
-    "@ant-design/pro-components": "^2.4.4",
+    "@ant-design/icons": "^5.4.0",
+    "@ant-design/pro-components": "^2.7.15",
     "@antv/x6": "^2.18.1",
-    "@umijs/max": "^4.3.11",
-    "antd": "^5.20.0",
-    "cross-env": "^7.0.3"
+    "umi": "^4.3.3",
+    "antd": "^5.20.0"
   },
   "devDependencies": {
-    "@types/react": "^18.0.33",
-    "@types/react-dom": "^18.0.11",
-    "lint-staged": "^13.2.0",
-    "prettier": "^2.8.7",
-    "prettier-plugin-organize-imports": "^3.2.2",
-    "prettier-plugin-packagejson": "^2.4.3",
-    "typescript": "^5.0.3"
+    "@types/react": "^18.3.3",
+    "@types/react-dom": "^18.3.0",
+    "cross-env": "^7.0.3",
+    "typescript": "^5.5.3"
   }
 }

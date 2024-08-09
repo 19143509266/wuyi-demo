@@ -1,25 +1,10 @@
-import { defineConfig } from '@umijs/max'
+import { defineConfig } from 'umi'
 
 export default defineConfig({
-  antd: {
-    theme: {
-      token: {
-        colorPrimary: '#13c2c2',
-        colorInfo: '#13c2c2'
-      }
-    }
-  },
-  access: {},
-  model: {},
-  initialState: {},
-  request: {},
-  layout: {
-    title: 'demo'
-  },
   routes: [
     {
       path: '/',
-      redirect: '/antv-x6'
+      redirect: '/drag'
     },
     {
       name: 'canvas',

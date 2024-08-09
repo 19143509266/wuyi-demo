@@ -1,21 +1,22 @@
 import React, { useMemo } from 'react'
 import Styles from './index.less'
-import { pcMatrixCount, ShadowPositionType, SLIDER_WIDTH } from './drag'
+import { pcCanvasSize, pcMatrixCount, scaleType, ShadowPositionType, SLIDER_WIDTH } from './drag'
 
 type Props = {
   shadowPosition: ShadowPositionType
+  scale: scaleType
 }
 
 const Shadow = (props: Props) => {
-  const { shadowPosition } = props
+  const { shadowPosition, scale } = props
 
   if (shadowPosition.x < SLIDER_WIDTH || shadowPosition.y < 0) {
     return null
   }
 
   // 矩阵单元格的宽度和高度
-  const matrixWidth = (window.innerWidth - SLIDER_WIDTH) / pcMatrixCount.x
-  const matrixHeight = window.innerHeight / pcMatrixCount.y
+  const matrixWidth = pcCanvasSize.width / pcMatrixCount.x
+  const matrixHeight = pcCanvasSize.height / pcMatrixCount.y
 
   const styleInfo = useMemo(() => {
     // 计算阴影左上角对齐到网格的位置
@@ -27,9 +28,9 @@ const Shadow = (props: Props) => {
     const adjustedHeight = Math.round(150 / matrixHeight) * matrixHeight
 
     const style = {
-      transform: `translate(${left}px, ${top}px) rotate(0deg)`,
-      width: adjustedWidth, // 调整后的宽度
-      height: adjustedHeight, // 调整后的高度
+      transform: `translate(${left * scale.x}px, ${top * scale.y}px) rotate(0deg)`,
+      width: adjustedWidth * scale.x,
+      height: adjustedHeight * scale.y,
       transition: '0.1s',
       zIndex: 10
     }

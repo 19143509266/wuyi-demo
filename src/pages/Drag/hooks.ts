@@ -1,11 +1,12 @@
 import { useCallback, useEffect, useRef, useState } from 'react'
-import { DragItem, pcMatrixCount, SLIDER_WIDTH } from './drag'
+import { DragItem, pcCanvasSize, pcMatrixCount, scaleType, SLIDER_WIDTH } from './drag'
 import { getDeltaInMatrix } from './utils'
 
 export const useReSize = (
   curComponent: DragItem | null,
   setCurComponent: React.Dispatch<React.SetStateAction<DragItem | null>>,
-  setComponentData: React.Dispatch<React.SetStateAction<DragItem[]>>
+  setComponentData: React.Dispatch<React.SetStateAction<DragItem[]>>,
+  scale: scaleType
 ) => {
   const curComponentRef = useRef(curComponent)
   curComponentRef.current = curComponent
@@ -21,8 +22,8 @@ export const useReSize = (
       const initialY = curComponentRef.current?.y || 0
 
       const onMouseMove = (moveEvent: MouseEvent) => {
-        const deltaX = Math.round(getDeltaInMatrix('x', moveEvent.clientX - startX))
-        const deltaY = Math.round(getDeltaInMatrix('y', moveEvent.clientY - startY))
+        const deltaX = Math.round(getDeltaInMatrix('x', moveEvent.clientX - startX, scale))
+        const deltaY = Math.round(getDeltaInMatrix('y', moveEvent.clientY - startY, scale))
 
         setCurComponent(prev => {
           if (!prev) return null
@@ -71,6 +72,20 @@ export const useReSize = (
               break
           }
 
+          // 边界判断
+          if (newX + newSizeX > pcMatrixCount.x) {
+            newX = pcMatrixCount.x - (curComponentRef.current?.sizeX || 0)
+            newSizeX = curComponentRef.current?.sizeX || 0
+          }
+          if (newX < 0) {
+            newX = 0
+            newSizeX = curComponentRef.current?.sizeX || 0
+          }
+          if (newY < 0) {
+            newY = 0
+            newSizeY = curComponentRef.current?.sizeY || 0
+          }
+
           return {
             ...prev,
             sizeX: newSizeX,
@@ -104,7 +119,7 @@ export const useReSize = (
       window.addEventListener('mousemove', onMouseMove)
       window.addEventListener('mouseup', onMouseUp)
     },
-    [setCurComponent, setComponentData]
+    [setCurComponent, setComponentData, scale]
   )
 
   return { handleResizeMouseDown }
@@ -114,7 +129,8 @@ export const useReSize = (
 export const useMoveMouseDown = (
   curComponent: DragItem | null,
   setCurComponent: React.Dispatch<React.SetStateAction<DragItem | null>>,
-  setComponentData: React.Dispatch<React.SetStateAction<DragItem[]>>
+  setComponentData: React.Dispatch<React.SetStateAction<DragItem[]>>,
+  scale: scaleType
 ) => {
   const curComponentRef = useRef(curComponent)
   curComponentRef.current = curComponent
@@ -128,14 +144,25 @@ export const useMoveMouseDown = (
       const initialY = curComponentRef.current?.y || 0
 
       const onMouseMove = (moveEvent: MouseEvent) => {
-        const deltaX = Math.round(getDeltaInMatrix('x', moveEvent.clientX - startX))
-        const deltaY = Math.round(getDeltaInMatrix('y', moveEvent.clientY - startY))
+        const deltaX = Math.round(getDeltaInMatrix('x', moveEvent.clientX - startX, scale))
+        const deltaY = Math.round(getDeltaInMatrix('y', moveEvent.clientY - startY, scale))
 
         setCurComponent(prev => {
           if (!prev) return null
 
           let newX = initialX + deltaX
           let newY = initialY + deltaY
+
+          // 边界判断
+          if (newX + (curComponentRef.current?.sizeX || 0) > pcMatrixCount.x) {
+            newX = pcMatrixCount.x - (curComponentRef.current?.sizeX || 0)
+          }
+          if (newX < 0) {
+            newX = 0
+          }
+          if (newY < 0) {
+            newY = 0
+          }
 
           return {
             ...prev,
@@ -192,8 +219,8 @@ export const useComponentPositionAndSize = (
   const [sizeY, setSizeY] = useState(1)
 
   useEffect(() => {
-    const matrixWidth = window.innerWidth - SLIDER_WIDTH
-    const matrixHeight = window.innerHeight
+    const matrixWidth = pcCanvasSize.width
+    const matrixHeight = pcCanvasSize.height
 
     const calculatedMatrixX = Math.round((clientX - SLIDER_WIDTH) / (matrixWidth / pcMatrixCount.x))
     const calculatedMatrixY = Math.round(clientY / (matrixHeight / pcMatrixCount.y))

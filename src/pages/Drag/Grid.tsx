@@ -1,15 +1,20 @@
 import React from 'react'
-import { pcMatrixCount } from './drag'
+import { pcCanvasSize, pcMatrixCount, scaleType } from './drag'
 
-const Grid = () => {
+type Props = {
+  scale: scaleType
+}
+
+const Grid = (props: Props) => {
+  const { scale } = props
   const gridCells = Array.from({ length: pcMatrixCount.x * pcMatrixCount.y })
 
   const gridContainerStyle: React.CSSProperties = {
     display: 'grid',
     gridTemplateColumns: `repeat(${pcMatrixCount.x}, 1fr)`,
     gridTemplateRows: `repeat(${pcMatrixCount.y}, 1fr)`,
-    width: '100%',
-    height: '100%',
+    width: pcCanvasSize.width * scale.x,
+    height: pcCanvasSize.height * scale.y,
     backgroundColor: '#f0f0f0',
     boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)',
     border: '1px solid #d0d0d0',

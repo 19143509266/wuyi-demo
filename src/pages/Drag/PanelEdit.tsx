@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { DragItem, handlePositions } from './drag'
+import { DragItem, handlePositions, scaleType } from './drag'
 import Styles from './index.less'
 import { useMoveMouseDown, useReSize } from './hooks'
 import { getPcMatrix } from './utils'
@@ -9,12 +9,23 @@ type Props = {
   setComponentData: React.Dispatch<React.SetStateAction<DragItem[]>>
   curComponent: DragItem | null
   setCurComponent: React.Dispatch<React.SetStateAction<DragItem | null>>
+  scale: scaleType
 }
 
 const PanelEdit = (props: Props) => {
-  const { componentData, setComponentData, curComponent, setCurComponent } = props
-  const { handleResizeMouseDown } = useReSize(curComponent, setCurComponent, setComponentData)
-  const { handleMoveMouseDown } = useMoveMouseDown(curComponent, setCurComponent, setComponentData)
+  const { componentData, setComponentData, curComponent, setCurComponent, scale } = props
+  const { handleResizeMouseDown } = useReSize(
+    curComponent,
+    setCurComponent,
+    setComponentData,
+    scale
+  )
+  const { handleMoveMouseDown } = useMoveMouseDown(
+    curComponent,
+    setCurComponent,
+    setComponentData,
+    scale
+  )
 
   const handleClick = (item: DragItem) => {
     setCurComponent(item)
@@ -26,10 +37,10 @@ const PanelEdit = (props: Props) => {
         <div
           key={item.id}
           style={{
-            width: getPcMatrix('x', item.sizeX),
-            height: getPcMatrix('y', item.sizeY),
+            width: getPcMatrix('x', item.sizeX, scale),
+            height: getPcMatrix('y', item.sizeY, scale),
             background: '#fff000',
-            transform: `translate(${getPcMatrix('x', item.x)}px, ${getPcMatrix('y', item.y)}px)`,
+            transform: `translate(${getPcMatrix('x', item.x, scale)}px, ${getPcMatrix('y', item.y, scale)}px)`,
             position: 'absolute',
             zIndex: 999
           }}

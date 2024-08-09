@@ -18,6 +18,17 @@ export const pcMatrixCount = {
   y: 18
 }
 
+// pc 画布 1600 * 900
+export const pcCanvasSize = {
+  width: 1600,
+  height: 900
+}
+
+export type scaleType = {
+  x: number
+  y: number
+}
+
 export const SLIDER_WIDTH = 260
 
 export const handlePositions = ['tl', 'tm', 'tr', 'ml', 'mr', 'bl', 'bm', 'br']

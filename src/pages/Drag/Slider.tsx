@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import Styles from './index.less'
-import { DragItem, ShadowPositionType, SLIDER_WIDTH } from './drag'
+import { DragItem, scaleType, ShadowPositionType, SLIDER_WIDTH } from './drag'
 import { v4 as uuidv4 } from 'uuid'
 import { useComponentPositionAndSize } from './hooks'
 
@@ -40,8 +40,8 @@ const Slider = (props: Props) => {
         id: uuidv4(),
         x: matrixX,
         y: matrixY,
-        sizeX,
-        sizeY
+        sizeX: sizeX,
+        sizeY: sizeY
       }
       setComponentData((pre: DragItem[]) => [...pre, newComponent])
     }

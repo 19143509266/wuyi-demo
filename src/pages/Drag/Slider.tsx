@@ -1,7 +1,8 @@
-import React from 'react'
+import React, { useState } from 'react'
 import Styles from './index.less'
-import { DragItem, pcMatrixCount, ShadowPositionType, SLIDER_WIDTH } from './drag'
+import { DragItem, ShadowPositionType, SLIDER_WIDTH } from './drag'
 import { v4 as uuidv4 } from 'uuid'
+import { useComponentPositionAndSize } from './hooks'
 
 type Props = {
   setShadowPosition: (val: ShadowPositionType) => void
@@ -10,25 +11,37 @@ type Props = {
 
 const Slider = (props: Props) => {
   const { setShadowPosition, setComponentData } = props
+  const componentWidth = 200
+  const componentHeight = 150
+  const [dragPosition, setDragPosition] = useState({ x: 0, y: 0 })
+
+  const { matrixX, matrixY, sizeX, sizeY } = useComponentPositionAndSize(
+    dragPosition.x,
+    dragPosition.y,
+    componentWidth,
+    componentHeight
+  )
 
   const handleDrag = (event: React.DragEvent<HTMLDivElement>) => {
     const x = event.clientX
     const y = event.clientY
 
+    if (x > 0 && y > 0) {
+      setDragPosition({ x, y })
+    }
     setShadowPosition({ x, y, type: 'new' })
   }
 
-  const handleDragEnd = (event: React.DragEvent<HTMLDivElement>) => {
-    const x = event.clientX
-    const y = event.clientY
-
+  const handleDragEnd = () => {
+    const x = dragPosition.x
+    const y = dragPosition.y
     if (x > SLIDER_WIDTH && y > 0) {
       const newComponent: DragItem = {
         id: uuidv4(),
-        x,
-        y,
-        sizeX: (200 / (window.innerWidth - SLIDER_WIDTH)) * pcMatrixCount.x,
-        sizeY: (150 / window.innerHeight) * pcMatrixCount.y
+        x: matrixX,
+        y: matrixY,
+        sizeX,
+        sizeY
       }
       setComponentData((pre: DragItem[]) => [...pre, newComponent])
     }

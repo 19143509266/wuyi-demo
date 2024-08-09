@@ -1,6 +1,6 @@
 import React, { useMemo } from 'react'
 import Styles from './index.less'
-import { ShadowPositionType, SLIDER_WIDTH } from './drag'
+import { pcMatrixCount, ShadowPositionType, SLIDER_WIDTH } from './drag'
 
 type Props = {
   shadowPosition: ShadowPositionType
@@ -13,20 +13,28 @@ const Shadow = (props: Props) => {
     return null
   }
 
+  // 矩阵单元格的宽度和高度
+  const matrixWidth = (window.innerWidth - SLIDER_WIDTH) / pcMatrixCount.x
+  const matrixHeight = window.innerHeight / pcMatrixCount.y
+
   const styleInfo = useMemo(() => {
-    let left = 0
-    let top = 0
-    left = shadowPosition.x - SLIDER_WIDTH
-    top = shadowPosition.y
+    // 计算阴影左上角对齐到网格的位置
+    let left = Math.floor((shadowPosition.x - SLIDER_WIDTH) / matrixWidth) * matrixWidth
+    let top = Math.floor(shadowPosition.y / matrixHeight) * matrixHeight
+
+    // 调整宽度和高度，使其为单元格大小的整数倍
+    const adjustedWidth = Math.floor(200 / matrixWidth) * matrixWidth
+    const adjustedHeight = Math.floor(150 / matrixHeight) * matrixHeight
 
     const style = {
       transform: `translate(${left}px, ${top}px) rotate(0deg)`,
-      width: 200,
-      height: 150,
-      transition: '0.1s'
+      width: adjustedWidth, // 调整后的宽度
+      height: adjustedHeight, // 调整后的高度
+      transition: '0.1s',
+      zIndex: 10
     }
     return style
-  }, [shadowPosition])
+  }, [shadowPosition, matrixWidth, matrixHeight])
 
   return <div className={Styles.shadow} style={styleInfo}></div>
 }

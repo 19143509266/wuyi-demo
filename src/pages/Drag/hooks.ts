@@ -1,5 +1,6 @@
-import { useState, useCallback, useRef } from 'react'
+import { useCallback, useEffect, useRef, useState } from 'react'
 import { DragItem, pcMatrixCount, SLIDER_WIDTH } from './drag'
+import { getDeltaInMatrix } from './utils'
 
 export const useReSize = (
   curComponent: DragItem | null,
@@ -20,9 +21,8 @@ export const useReSize = (
       const initialY = curComponentRef.current?.y || 0
 
       const onMouseMove = (moveEvent: MouseEvent) => {
-        const deltaX =
-          ((moveEvent.clientX - startX) / (window.innerWidth - SLIDER_WIDTH)) * pcMatrixCount.x
-        const deltaY = ((moveEvent.clientY - startY) / window.innerHeight) * pcMatrixCount.y
+        const deltaX = Math.round(getDeltaInMatrix('x', moveEvent.clientX - startX))
+        const deltaY = Math.round(getDeltaInMatrix('y', moveEvent.clientY - startY))
 
         setCurComponent(prev => {
           if (!prev) return null
@@ -36,21 +36,21 @@ export const useReSize = (
             case 'tl':
               newSizeX = initialSizeX - deltaX
               newSizeY = initialSizeY - deltaY
-              newX = initialX + moveEvent.clientX - startX
-              newY = initialY + moveEvent.clientY - startY
+              newX = initialX + deltaX
+              newY = initialY + deltaY
               break
             case 'tm':
               newSizeY = initialSizeY - deltaY
-              newY = initialY + moveEvent.clientY - startY
+              newY = initialY + deltaY
               break
             case 'tr':
               newSizeX = initialSizeX + deltaX
               newSizeY = initialSizeY - deltaY
-              newY = initialY + moveEvent.clientY - startY
+              newY = initialY + deltaY
               break
             case 'ml':
               newSizeX = initialSizeX - deltaX
-              newX = initialX + moveEvent.clientX - startX
+              newX = initialX + deltaX
               break
             case 'mr':
               newSizeX = initialSizeX + deltaX
@@ -58,7 +58,7 @@ export const useReSize = (
             case 'bl':
               newSizeX = initialSizeX - deltaX
               newSizeY = initialSizeY + deltaY
-              newX = initialX + moveEvent.clientX - startX
+              newX = initialX + deltaX
               break
             case 'bm':
               newSizeY = initialSizeY + deltaY
@@ -128,8 +128,8 @@ export const useMoveMouseDown = (
       const initialY = curComponentRef.current?.y || 0
 
       const onMouseMove = (moveEvent: MouseEvent) => {
-        const deltaX = moveEvent.clientX - startX
-        const deltaY = moveEvent.clientY - startY
+        const deltaX = Math.round(getDeltaInMatrix('x', moveEvent.clientX - startX))
+        const deltaY = Math.round(getDeltaInMatrix('y', moveEvent.clientY - startY))
 
         setCurComponent(prev => {
           if (!prev) return null
@@ -170,4 +170,42 @@ export const useMoveMouseDown = (
   )
 
   return { handleMoveMouseDown }
+}
+
+type UseComponentPositionAndSizeReturn = {
+  matrixX: number
+  matrixY: number
+  sizeX: number
+  sizeY: number
+}
+
+// sizeX sizeY 钩子
+export const useComponentPositionAndSize = (
+  clientX: number,
+  clientY: number,
+  componentWidth: number,
+  componentHeight: number
+): UseComponentPositionAndSizeReturn => {
+  const [matrixX, setMatrixX] = useState(0)
+  const [matrixY, setMatrixY] = useState(0)
+  const [sizeX, setSizeX] = useState(1)
+  const [sizeY, setSizeY] = useState(1)
+
+  useEffect(() => {
+    const matrixWidth = window.innerWidth - SLIDER_WIDTH
+    const matrixHeight = window.innerHeight
+
+    const calculatedMatrixX = Math.floor((clientX - SLIDER_WIDTH) / (matrixWidth / pcMatrixCount.x))
+    const calculatedMatrixY = Math.floor(clientY / (matrixHeight / pcMatrixCount.y))
+
+    const calculatedSizeX = Math.round((componentWidth / matrixWidth) * pcMatrixCount.x)
+    const calculatedSizeY = Math.round((componentHeight / matrixHeight) * pcMatrixCount.y)
+
+    setMatrixX(calculatedMatrixX)
+    setMatrixY(calculatedMatrixY)
+    setSizeX(calculatedSizeX)
+    setSizeY(calculatedSizeY)
+  }, [clientX, clientY, componentWidth, componentHeight])
+
+  return { matrixX, matrixY, sizeX, sizeY }
 }

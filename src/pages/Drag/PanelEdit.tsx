@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from 'react'
-import { DragItem, handlePositions, pcMatrixCount, SLIDER_WIDTH } from './drag'
+import { DragItem, handlePositions } from './drag'
 import Styles from './index.less'
 import { useMoveMouseDown, useReSize } from './hooks'
+import { getPcMatrix } from './utils'
 
 type Props = {
   componentData: DragItem[]
@@ -33,15 +34,16 @@ const PanelEdit = (props: Props) => {
 
   return (
     <div style={{ width: '100%', height: '100%', userSelect: 'none' }}>
-      {componentData.map((item, index) => (
+      {componentData.map(item => (
         <div
           key={item.id}
           style={{
-            width: (item.sizeX / pcMatrixCount.x) * (windowSize.width - SLIDER_WIDTH),
-            height: (item.sizeY / pcMatrixCount.y) * windowSize.height,
+            width: getPcMatrix('x', item.sizeX),
+            height: getPcMatrix('y', item.sizeY),
             background: '#fff',
-            transform: `translate(${item.x - SLIDER_WIDTH}px, ${item.y}px)`,
-            position: 'absolute'
+            transform: `translate(${getPcMatrix('x', item.x)}px, ${getPcMatrix('y', item.y)}px)`,
+            position: 'absolute',
+            zIndex: 999
           }}
           onClick={() => handleClick(item)}
         >

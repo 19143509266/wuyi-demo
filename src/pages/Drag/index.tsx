@@ -4,6 +4,7 @@ import PanelEdit from './PanelEdit'
 import { DragItem, ShadowPositionType, SLIDER_WIDTH } from './drag'
 import Shadow from './Shadow'
 import Styles from './index.less'
+import Grid from './Grid'
 
 const Drag = () => {
   const [componentData, setComponentData] = useState<DragItem[]>([])
@@ -25,6 +26,7 @@ const Drag = () => {
           curComponent={curComponent}
           setCurComponent={setCurComponent}
         />
+        <Grid />
       </div>
     </div>
   )

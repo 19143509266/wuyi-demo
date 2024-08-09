@@ -109,3 +109,65 @@ export const useReSize = (
 
   return { handleResizeMouseDown }
 }
+
+// 拖拽钩子
+export const useMoveMouseDown = (
+  curComponent: DragItem | null,
+  setCurComponent: React.Dispatch<React.SetStateAction<DragItem | null>>,
+  setComponentData: React.Dispatch<React.SetStateAction<DragItem[]>>
+) => {
+  const curComponentRef = useRef(curComponent)
+  curComponentRef.current = curComponent
+
+  const handleMoveMouseDown = useCallback(
+    (e: React.MouseEvent) => {
+      const startX = e.clientX
+      const startY = e.clientY
+
+      const initialX = curComponentRef.current?.x || 0
+      const initialY = curComponentRef.current?.y || 0
+
+      const onMouseMove = (moveEvent: MouseEvent) => {
+        const deltaX = moveEvent.clientX - startX
+        const deltaY = moveEvent.clientY - startY
+
+        setCurComponent(prev => {
+          if (!prev) return null
+
+          let newX = initialX + deltaX
+          let newY = initialY + deltaY
+
+          return {
+            ...prev,
+            x: newX,
+            y: newY
+          }
+        })
+
+        setComponentData(prev => {
+          return prev.map(item => {
+            if (item.id === curComponentRef.current?.id) {
+              return {
+                ...item,
+                x: curComponentRef.current?.x,
+                y: curComponentRef.current?.y
+              }
+            }
+            return item
+          })
+        })
+      }
+
+      const onMouseUp = () => {
+        window.removeEventListener('mousemove', onMouseMove)
+        window.removeEventListener('mouseup', onMouseUp)
+      }
+
+      window.addEventListener('mousemove', onMouseMove)
+      window.addEventListener('mouseup', onMouseUp)
+    },
+    [curComponent, setCurComponent, setComponentData]
+  )
+
+  return { handleMoveMouseDown }
+}

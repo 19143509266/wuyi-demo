@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { DragItem, handlePositions, pcMatrixCount, SLIDER_WIDTH } from './drag'
 import Styles from './index.less'
-import { useReSize } from './hooks'
+import { useMoveMouseDown, useReSize } from './hooks'
 
 type Props = {
   componentData: DragItem[]
@@ -13,6 +13,7 @@ type Props = {
 const PanelEdit = (props: Props) => {
   const { componentData, setComponentData, curComponent, setCurComponent } = props
   const { handleResizeMouseDown } = useReSize(curComponent, setCurComponent, setComponentData)
+  const { handleMoveMouseDown } = useMoveMouseDown(curComponent, setCurComponent, setComponentData)
   const [windowSize, setWindowSize] = useState({
     width: window.innerWidth,
     height: window.innerHeight
@@ -51,9 +52,16 @@ const PanelEdit = (props: Props) => {
               {handlePositions.map(pos => (
                 <div
                   key={pos}
-                  className={Styles['handle'] + ' ' + Styles[`handle-${pos}`]}
+                  className={`${Styles['handle']} ${Styles[`handle-${pos}`]}`}
                   onMouseDown={e => handleResizeMouseDown(e, pos)}
                 ></div>
+              ))}
+              {['top', 'bottom', 'left', 'right'].map(pos => (
+                <div
+                  key={pos}
+                  className={`${Styles.move} ${Styles[`move-${pos}`]}`}
+                  onMouseDown={e => handleMoveMouseDown(e)}
+                />
               ))}
             </div>
           ) : null}

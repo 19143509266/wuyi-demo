@@ -19,13 +19,28 @@ export default defineConfig({
   routes: [
     {
       path: '/',
-      redirect: '/canvas'
+      redirect: '/antv-x6'
     },
     {
       name: 'canvas',
       path: '/canvas',
       component: './Canvas'
+    },
+    {
+      name: 'drag',
+      path: '/drag',
+      component: './Drag'
     }
+    // {
+    //   name: 'antv/x6',
+    //   path: '/antv-x6',
+    //   component: './AntvX6'
+    // },
+    // {
+    //   name: 'pixi',
+    //   path: '/pixi',
+    //   component: './Pixi'
+    // }
   ],
   npmClient: 'pnpm'
 })

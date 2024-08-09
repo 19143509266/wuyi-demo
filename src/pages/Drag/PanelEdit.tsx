@@ -15,18 +15,6 @@ const PanelEdit = (props: Props) => {
   const { componentData, setComponentData, curComponent, setCurComponent } = props
   const { handleResizeMouseDown } = useReSize(curComponent, setCurComponent, setComponentData)
   const { handleMoveMouseDown } = useMoveMouseDown(curComponent, setCurComponent, setComponentData)
-  const [windowSize, setWindowSize] = useState({
-    width: window.innerWidth,
-    height: window.innerHeight
-  })
-
-  useEffect(() => {
-    const handleResize = () => {
-      setWindowSize({ width: window.innerWidth, height: window.innerHeight })
-    }
-    window.addEventListener('resize', handleResize)
-    return () => window.removeEventListener('resize', handleResize)
-  }, [])
 
   const handleClick = (item: DragItem) => {
     setCurComponent(item)
@@ -48,7 +36,6 @@ const PanelEdit = (props: Props) => {
           onClick={() => handleClick(item)}
         >
           {item.id}
-
           {curComponent && curComponent.id === item.id ? (
             <div className={Styles.outline}>
               {handlePositions.map(pos => (

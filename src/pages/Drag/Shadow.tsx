@@ -26,8 +26,6 @@ const Shadow = (props: Props) => {
     const adjustedWidth = Math.round(200 / matrixWidth) * matrixWidth
     const adjustedHeight = Math.round(150 / matrixHeight) * matrixHeight
 
-    console.log(adjustedWidth)
-
     const style = {
       transform: `translate(${left}px, ${top}px) rotate(0deg)`,
       width: adjustedWidth, // 调整后的宽度

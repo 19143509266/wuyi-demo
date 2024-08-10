@@ -1,16 +1,29 @@
 import React, { useMemo } from 'react'
 import Styles from './index.less'
-import { pcCanvasSize, pcMatrixCount, scaleType, ShadowPositionType, SLIDER_WIDTH } from './drag'
+import {
+  DragItem,
+  pcCanvasSize,
+  pcMatrixCount,
+  scaleType,
+  ShadowPositionType,
+  SLIDER_WIDTH
+} from './drag'
+import { setUpItem } from './utils'
 
 type Props = {
   shadowPosition: ShadowPositionType
   scale: scaleType
+  componentData: DragItem[]
 }
 
 const Shadow = (props: Props) => {
-  const { shadowPosition, scale } = props
+  const { shadowPosition, scale, componentData } = props
 
-  if (shadowPosition.x < SLIDER_WIDTH || shadowPosition.y < 0) {
+  if (
+    shadowPosition.x < 0 ||
+    shadowPosition.y < 0 ||
+    (shadowPosition.x === 0 && shadowPosition.y === 0)
+  ) {
     return null
   }
 
@@ -19,13 +32,25 @@ const Shadow = (props: Props) => {
   const matrixHeight = pcCanvasSize.height / pcMatrixCount.y
 
   const styleInfo = useMemo(() => {
+    const shadow = {
+      id: 'shadow',
+      x: shadowPosition.x,
+      y: shadowPosition.y,
+      sizeX: shadowPosition.sizeX,
+      sizeY: shadowPosition.sizeY
+    }
+    const res = setUpItem(componentData, shadow)
+    // 确保元素不越界
+    res.x = Math.min(Math.max(res.x, 0), pcMatrixCount.x - (res.sizeX || 0))
+    res.y = Math.max(res.y, 0)
+
     // 计算阴影左上角对齐到网格的位置
-    let left = Math.round((shadowPosition.x - SLIDER_WIDTH) / matrixWidth) * matrixWidth
-    let top = Math.round(shadowPosition.y / matrixHeight) * matrixHeight
+    let left = res.x * matrixWidth
+    let top = res.y * matrixHeight
 
     // 调整宽度和高度，使其为单元格大小的整数倍
-    const adjustedWidth = Math.round(200 / matrixWidth) * matrixWidth
-    const adjustedHeight = Math.round(150 / matrixHeight) * matrixHeight
+    const adjustedWidth = res.sizeX * matrixWidth
+    const adjustedHeight = res.sizeY * matrixHeight
 
     const style = {
       transform: `translate(${left * scale.x}px, ${top * scale.y}px) rotate(0deg)`,

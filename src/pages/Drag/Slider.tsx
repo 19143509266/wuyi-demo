@@ -1,6 +1,13 @@
 import React, { useState } from 'react'
 import Styles from './index.less'
-import { DragItem, scaleType, ShadowPositionType, SLIDER_WIDTH } from './drag'
+import {
+  DragItem,
+  pcCanvasSize,
+  pcMatrixCount,
+  scaleType,
+  ShadowPositionType,
+  SLIDER_WIDTH
+} from './drag'
 import { v4 as uuidv4 } from 'uuid'
 import { useComponentPositionAndSize } from './hooks'
 import { checkUpElement } from './utils'
@@ -22,6 +29,9 @@ const Slider = (props: Props) => {
     componentWidth,
     componentHeight
   )
+  // 矩阵单元格的宽度和高度
+  const matrixWidth = pcCanvasSize.width / pcMatrixCount.x
+  const matrixHeight = pcCanvasSize.height / pcMatrixCount.y
 
   const handleDrag = (event: React.DragEvent<HTMLDivElement>) => {
     const x = event.clientX
@@ -30,7 +40,9 @@ const Slider = (props: Props) => {
     if (x > 0 && y > 0) {
       setDragPosition({ x, y })
     }
-    setShadowPosition({ x, y, type: 'new' })
+    let newX = Math.round((x - SLIDER_WIDTH) / matrixWidth)
+    let newY = Math.round(y / matrixHeight)
+    setShadowPosition({ x: newX, y: newY, sizeX: 5, sizeY: 3, type: 'new' })
   }
 
   const handleDragEnd = () => {

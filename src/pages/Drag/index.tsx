@@ -12,6 +12,8 @@ const Drag = () => {
   const [shadowPosition, setShadowPosition] = useState<ShadowPositionType>({
     x: 0,
     y: 0,
+    sizeX: 5,
+    sizeY: 3,
     type: 'new'
   })
   const [scale, setScale] = useState<scaleType>({ x: 1, y: 1 })
@@ -35,13 +37,14 @@ const Drag = () => {
     <div className={Styles['big-box']}>
       <Slider setShadowPosition={setShadowPosition} setComponentData={setComponentData} />
       <div className={Styles['panel-edit']} style={{ width: `calc(100% - ${SLIDER_WIDTH}px)` }}>
-        <Shadow shadowPosition={shadowPosition} scale={scale} />
+        <Shadow shadowPosition={shadowPosition} scale={scale} componentData={componentData} />
         <PanelEdit
           componentData={componentData}
           setComponentData={setComponentData}
           curComponent={curComponent}
           setCurComponent={setCurComponent}
           scale={scale}
+          setShadowPosition={setShadowPosition}
         />
         <Grid scale={scale} />
       </div>

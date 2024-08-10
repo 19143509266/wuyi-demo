@@ -1,16 +1,26 @@
 import { useCallback, useEffect, useRef, useState } from 'react'
-import { DragItem, pcCanvasSize, pcMatrixCount, scaleType, SLIDER_WIDTH } from './drag'
-import { checkUpElement, getDeltaInMatrix, handleCollision } from './utils'
+import {
+  DragItem,
+  pcCanvasSize,
+  pcMatrixCount,
+  scaleType,
+  ShadowPositionType,
+  SLIDER_WIDTH
+} from './drag'
+import { checkUpElement, getDeltaInMatrix, handleCollision, setUpItem } from './utils'
 
 export const useReSize = (
   curComponent: DragItem | null,
   setCurComponent: React.Dispatch<React.SetStateAction<DragItem | null>>,
   componentData: DragItem[],
   setComponentData: React.Dispatch<React.SetStateAction<DragItem[]>>,
-  scale: scaleType
+  scale: scaleType,
+  setShadowPosition: React.Dispatch<React.SetStateAction<ShadowPositionType>>
 ) => {
   const curComponentRef = useRef(curComponent)
   curComponentRef.current = curComponent
+
+  let resPos: DragItem | null = null
 
   const handleResizeMouseDown = useCallback(
     (e: React.MouseEvent, pos: string) => {
@@ -92,21 +102,27 @@ export const useReSize = (
           x: newX,
           y: newY
         }
+        resPos = potentialNewComponent
+        setShadowPosition({ ...resPos, type: 'drag' })
 
         // 处理碰撞
-        const hasCollision = handleCollision(
-          potentialNewComponent,
-          setCurComponent,
-          setComponentData
-        )
+        const hasCollision = handleCollision(resPos, setComponentData)
 
         if (!hasCollision) {
-          setCurComponent(potentialNewComponent)
+          setCurComponent(resPos)
           checkUpElement(curComponentRef.current, setComponentData, false)
         }
       }
 
       const onMouseUp = () => {
+        setShadowPosition({ x: 0, y: 0, sizeX: 0, sizeY: 0, type: 'new' })
+        if (resPos) {
+          const res = setUpItem(componentData, resPos)
+          res.x = Math.min(Math.max(res.x, 0), pcMatrixCount.x - (res.sizeX || 0))
+          res.y = Math.max(res.y, 0)
+          setCurComponent(res)
+          setComponentData(prev => prev.map(item => (item.id === res?.id ? res : item)))
+        }
         window.removeEventListener('mousemove', onMouseMove)
         window.removeEventListener('mouseup', onMouseUp)
       }
@@ -126,12 +142,13 @@ export const useMoveMouseDown = (
   setCurComponent: React.Dispatch<React.SetStateAction<DragItem | null>>,
   componentData: DragItem[],
   setComponentData: React.Dispatch<React.SetStateAction<DragItem[]>>,
-  scale: scaleType
+  scale: scaleType,
+  setShadowPosition: React.Dispatch<React.SetStateAction<ShadowPositionType>>
 ) => {
   const curComponentRef = useRef(curComponent)
   curComponentRef.current = curComponent
-  const gridHeight = (pcCanvasSize.height * scale.y) / pcMatrixCount.y
-  const gridWidth = (pcCanvasSize.width * scale.x) / pcMatrixCount.x
+
+  let resPos: DragItem | null = null
 
   const handleMoveMouseDown = useCallback(
     (e: React.MouseEvent) => {
@@ -147,28 +164,34 @@ export const useMoveMouseDown = (
         const deltaY = Math.round(getDeltaInMatrix('y', moveEvent.clientY - startY, scale))
 
         let newX = initialX + deltaX
-        let newY = Math.round((initialY + deltaY) / gridHeight) * gridHeight
+        let newY = initialY + deltaY
 
         // 确保元素不越界
         newX = Math.min(Math.max(newX, 0), pcMatrixCount.x - (curComponentRef.current?.sizeX || 0))
         newY = Math.max(newY, 0)
 
         const potentialNewComponent = { ...curComponentRef.current, x: newX, y: newY }
+        resPos = potentialNewComponent
+        setShadowPosition({ ...resPos, type: 'drag' })
 
         // 处理碰撞
-        const hasCollision = handleCollision(
-          potentialNewComponent,
-          setCurComponent,
-          setComponentData
-        )
+        const hasCollision = handleCollision(resPos, setComponentData)
 
         if (!hasCollision) {
-          setCurComponent(potentialNewComponent)
+          setCurComponent(resPos)
           checkUpElement(curComponentRef.current, setComponentData, false)
         }
       }
 
       const onMouseUp = () => {
+        setShadowPosition({ x: 0, y: 0, sizeX: 0, sizeY: 0, type: 'new' })
+        if (resPos) {
+          const res = setUpItem(componentData, resPos)
+          res.x = Math.min(Math.max(res.x, 0), pcMatrixCount.x - (res.sizeX || 0))
+          res.y = Math.max(res.y, 0)
+          setCurComponent(res)
+          setComponentData(prev => prev.map(item => (item.id === res?.id ? res : item)))
+        }
         window.removeEventListener('mousemove', onMouseMove)
         window.removeEventListener('mouseup', onMouseUp)
       }

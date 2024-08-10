@@ -7,8 +7,11 @@ export type DragItem = {
 }
 
 export type ShadowPositionType = {
+  id?: string
   x: number
   y: number
+  sizeX: number
+  sizeY: number
   type: 'new' | 'drag'
 }
 

@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from 'react'
-import { DragItem, handlePositions, scaleType } from './drag'
+import React from 'react'
+import { DragItem, handlePositions, scaleType, ShadowPositionType } from './drag'
 import Styles from './index.less'
 import { useMoveMouseDown, useReSize } from './hooks'
 import { getPcMatrix } from './utils'
@@ -10,23 +10,33 @@ type Props = {
   curComponent: DragItem | null
   setCurComponent: React.Dispatch<React.SetStateAction<DragItem | null>>
   scale: scaleType
+  setShadowPosition: React.Dispatch<React.SetStateAction<ShadowPositionType>>
 }
 
 const PanelEdit = (props: Props) => {
-  const { componentData, setComponentData, curComponent, setCurComponent, scale } = props
+  const {
+    componentData,
+    setComponentData,
+    curComponent,
+    setCurComponent,
+    scale,
+    setShadowPosition
+  } = props
   const { handleResizeMouseDown } = useReSize(
     curComponent,
     setCurComponent,
     componentData,
     setComponentData,
-    scale
+    scale,
+    setShadowPosition
   )
   const { handleMoveMouseDown } = useMoveMouseDown(
     curComponent,
     setCurComponent,
     componentData,
     setComponentData,
-    scale
+    scale,
+    setShadowPosition
   )
 
   const handleClick = (item: DragItem) => {

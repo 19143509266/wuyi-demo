@@ -30,18 +30,20 @@ export const isColliding = (item1: DragItem, item2: DragItem) => {
 // 碰撞处理函数
 export const handleCollision = (
   potentialNewComponent: DragItem,
-  setCurComponent: React.Dispatch<React.SetStateAction<DragItem | null>>,
   setComponentData: React.Dispatch<React.SetStateAction<DragItem[]>>
 ) => {
   let collisionDetected = false
 
   setComponentData(prev => {
+    const resPos = setUpItem(prev, potentialNewComponent)
+    resPos.x = Math.min(Math.max(resPos.x, 0), pcMatrixCount.x - (resPos.sizeX || 0))
+    resPos.y = Math.max(resPos.y, 0)
     const updatedComponentData = prev.map(item => {
-      if (item.id !== potentialNewComponent.id && isColliding(potentialNewComponent, item)) {
+      if (item.id !== resPos.id && isColliding(resPos, item)) {
         collisionDetected = true
         let newY = item.y
-        if (potentialNewComponent.y <= item.y) {
-          newY += potentialNewComponent.sizeY - item.y
+        if (resPos.y <= item.y) {
+          newY += resPos.sizeY - item.y
         }
         return { ...item, y: newY }
       }
@@ -50,10 +52,6 @@ export const handleCollision = (
 
     return updatedComponentData
   })
-
-  if (collisionDetected) {
-    setCurComponent(potentialNewComponent)
-  }
 
   return collisionDetected
 }
@@ -68,32 +66,40 @@ export const checkUpElement = (
     prev.map(item => {
       let newItem = item
       if (item.y > 0) {
-        // 查找上方最近的元素
-        const upElement = prev
-          .filter(pr => pr.y < item.y) // 找到所有在当前元素上方的元素
-          .reduce((closest: DragItem | null, current: DragItem) => {
-            // 如果 closest 为空，则返回 current；否则，返回 y 值更接近 item 的元素
-            return closest === null || current.y > closest.y ? current : closest
-          }, null)
-
-        if (upElement) {
-          // 检查x轴是否没有水平重叠
-          if (upElement.x + upElement.sizeX <= item.x || item.x + item.sizeX <= upElement.x) {
-            newItem = { ...item, y: upElement.y } // 吸附到上方元素下方
-          } else {
-            if (item.y < upElement.y + upElement.sizeY) {
-              newItem = { ...item, y: item.y - upElement.sizeY } // 吸附到上方元素下方
-            } else {
-              newItem = { ...item, y: upElement.y + upElement.sizeY }
-            }
-          }
-        } else {
-          newItem = { ...item, y: 0 }
-        }
+        const res = setUpItem(prev, item)
+        newItem = res
       }
 
       // 更新当前组件或返回调整后的 newItem
       return item.id === potentialNewComponent?.id && !isNew ? potentialNewComponent : newItem
     })
   )
+}
+
+export const setUpItem = (prev: DragItem[], item: DragItem) => {
+  // 查找上方最近的元素
+  const upElement = prev
+    .filter(
+      pr =>
+        pr.y < item.y && pr.x < item.x + item.sizeX && pr.x + pr.sizeX > item.x && pr.id !== item.id
+    ) // 找到所有在当前元素上方且有水平重叠的元素
+    .reduce((closest: DragItem | null, current: DragItem) => {
+      // 如果 closest 为空，则返回 current；否则，返回 y 值更接近 item 的元素
+      return closest === null || current.y > closest.y ? current : closest
+    }, null)
+
+  if (upElement) {
+    // 检查x轴是否没有水平重叠
+    if (upElement.x + upElement.sizeX <= item.x || item.x + item.sizeX <= upElement.x) {
+      return { ...item, y: upElement.y } // 吸附到上方元素下方
+    } else {
+      if (item.y < upElement.y + upElement.sizeY) {
+        return { ...item, y: item.y - upElement.sizeY } // 吸附到上方元素下方
+      } else {
+        return { ...item, y: upElement.y + upElement.sizeY }
+      }
+    }
+  } else {
+    return { ...item, y: 0 }
+  }
 }

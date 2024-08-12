@@ -74,8 +74,6 @@ const View = (props: Props) => {
         newPlot.render()
       }
 
-      console.log(newPlot)
-
       if (plot) {
         plot.destroy()
       }

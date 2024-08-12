@@ -4,6 +4,7 @@ import 'react-grid-layout/css/styles.css'
 import 'react-resizable/css/styles.css'
 import styles from './index.less'
 import View from './View'
+import './resize.module.less'
 
 type ResizeHandle = 's' | 'w' | 'e' | 'n' | 'sw' | 'nw' | 'se' | 'ne'
 
@@ -12,6 +13,7 @@ const resizeHandles: ResizeHandle[] = ['s', 'w', 'e', 'n', 'sw', 'nw', 'se', 'ne
 const ReactGridLayout = () => {
   const [width, setWidth] = useState(window.innerWidth)
   const [layout, setLayout] = useState<Layout[]>([])
+  const [curComponent, setCurComponent] = useState<string | null>(null)
 
   const getPanelData = () => {
     const res = [
@@ -26,7 +28,7 @@ const ReactGridLayout = () => {
         y: item.y,
         w: item.w,
         h: item.h,
-        resizeHandles
+        resizeHandles: []
       }
     })
     setLayout(data)
@@ -48,7 +50,7 @@ const ReactGridLayout = () => {
         y: item.y,
         w: item.w,
         h: item.h,
-        resizeHandles
+        resizeHandles: curComponent === item.i ? resizeHandles : []
       }
     })
     setLayout(res)
@@ -68,8 +70,28 @@ const ReactGridLayout = () => {
     >
       {layout.map(item => {
         return (
-          <div key={item.i} style={{ background: '#ccc' }}>
-            <div className={styles['grid-item']}>
+          <div
+            key={item.i}
+            style={{ background: '#ccc' }}
+            onClick={() => {
+              setCurComponent(item.i)
+              setLayout(prev => {
+                return prev.map(i => {
+                  if (i.i === item.i) {
+                    return {
+                      ...i,
+                      resizeHandles: resizeHandles
+                    }
+                  }
+                  return i
+                })
+              })
+            }}
+          >
+            <div
+              className={styles['grid-item']}
+              style={curComponent === item.i ? { outline: '1px solid #70c0ff' } : {}}
+            >
               <div className={`${styles['drag-handle']} ${styles['top']}`}></div>
               <div className={`${styles['drag-handle']} ${styles['bottom']}`}></div>
               <div className={`${styles['drag-handle']} ${styles['left']}`}></div>

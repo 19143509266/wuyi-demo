@@ -4,7 +4,7 @@ export default defineConfig({
   routes: [
     {
       path: '/',
-      redirect: '/drag'
+      redirect: '/react-grid-layout'
     },
     {
       name: 'canvas',
@@ -15,6 +15,11 @@ export default defineConfig({
       name: 'drag',
       path: '/drag',
       component: './Drag'
+    },
+    {
+      name: 'react-grid-layout',
+      path: '/react-grid-layout',
+      component: './ReactGridLayout'
     }
     // {
     //   name: 'antv/x6',

@@ -20,6 +20,11 @@ export default defineConfig({
       name: 'react-grid-layout',
       path: '/react-grid-layout',
       component: './ReactGridLayout'
+    },
+    {
+      name: 'condition-relation',
+      path: '/condition-relation',
+      component: './ConditionRelation'
     }
     // {
     //   name: 'antv/x6',

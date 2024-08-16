@@ -1,14 +1,10 @@
 import { defineConfig } from 'umi'
 
 export default defineConfig({
-  history: {
-    type: 'hash'
-  },
   routes: [
     {
-      name: 'main',
       path: '/',
-      component: './ReactGridLayout'
+      redirect: '/react-grid-layout'
     },
     {
       name: 'canvas',

@@ -41,5 +41,7 @@ export default defineConfig({
     //   component: './Pixi'
     // }
   ],
-  npmClient: 'pnpm'
+  npmClient: 'pnpm',
+  base: '/wuyi-demo/',
+  publicPath: '/wuyi-demo/'
 })

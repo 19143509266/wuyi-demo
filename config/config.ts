@@ -25,17 +25,27 @@ export default defineConfig({
       name: 'condition-relation',
       path: '/condition-relation',
       component: './ConditionRelation'
+    },
+    {
+      name: 'demo',
+      path: '/demo',
+      component: './Demo'
+    },
+    {
+      name: 'iframe',
+      path: '/iframe',
+      component: './Iframe'
+    },
+    {
+      name: 'antv/x6',
+      path: '/antv-x6',
+      component: './AntvX6'
+    },
+    {
+      name: 'pixi',
+      path: '/pixi',
+      component: './Pixi'
     }
-    // {
-    //   name: 'antv/x6',
-    //   path: '/antv-x6',
-    //   component: './AntvX6'
-    // },
-    // {
-    //   name: 'pixi',
-    //   path: '/pixi',
-    //   component: './Pixi'
-    // }
   ],
   npmClient: 'pnpm',
   base: '/wuyi-demo/',

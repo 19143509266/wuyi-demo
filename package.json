@@ -12,6 +12,7 @@
   "dependencies": {
     "@ant-design/icons": "^5.4.0",
     "@ant-design/pro-components": "^2.7.15",
+    "@antv/g2": "^5.2.3",
     "@antv/g2plot": "^2.4.32",
     "@antv/x6": "^2.18.1",
     "antd": "^5.20.0",

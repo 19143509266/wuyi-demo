@@ -16,6 +16,7 @@
     "@antv/g2plot": "^2.4.32",
     "@antv/x6": "^2.18.1",
     "antd": "^5.20.0",
+    "echarts": "^5.5.1",
     "react-grid-layout": "^1.4.4",
     "react-resizable": "^3.0.5",
     "umi": "^4.3.3",

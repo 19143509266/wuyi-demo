@@ -4,7 +4,7 @@ export default defineConfig({
   routes: [
     {
       path: '/',
-      redirect: '/react-grid-layout'
+      redirect: '/disable-devtool'
     },
     {
       name: 'canvas',
@@ -45,6 +45,11 @@ export default defineConfig({
       name: 'pixi',
       path: '/pixi',
       component: './Pixi'
+    },
+    {
+      name: 'disable-devtool',
+      path: '/disable-devtool',
+      component: './DisableDevtool'
     }
   ],
   npmClient: 'pnpm',

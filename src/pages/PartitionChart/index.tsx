@@ -21,7 +21,7 @@ const PartitionChart: React.FC<ChartProps> = ({ chartsConfig }) => {
 
   useEffect(() => {
     if (containerRef.current) {
-      const plots = chartsConfig.map((config, index) => {
+      const plots: any = chartsConfig.map((config, index) => {
         const { type, data, yAxisTitle, color } = config
         const isLastPlot = index === chartsConfig.length - 1
 

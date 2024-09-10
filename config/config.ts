@@ -4,7 +4,7 @@ export default defineConfig({
   routes: [
     {
       path: '/',
-      redirect: '/disable-devtool'
+      redirect: '/low-code'
     },
     {
       name: 'canvas',
@@ -50,6 +50,11 @@ export default defineConfig({
       name: 'disable-devtool',
       path: '/disable-devtool',
       component: './DisableDevtool'
+    },
+    {
+      name: 'low-code',
+      path: '/low-code',
+      component: './LowCode'
     }
   ],
   npmClient: 'pnpm',

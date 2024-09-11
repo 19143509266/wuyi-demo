@@ -1,7 +1,6 @@
 import React from 'react'
-import styles from './index.modules.less'
+import styles from './index.less'
 import { Tabs } from 'antd'
-import './index.modules.less'
 import FormComponents from '@/pages/LowCode/ComponentsArea/FormComponents'
 import { dragComponentItem } from '@/pages/LowCode/types'
 import { UTILS_WIDTH } from '@/pages/LowCode/constants'

@@ -1,8 +1,9 @@
 import React from 'react'
 import { Divider } from 'antd'
 import styles from './index.modules.less'
+import { componentItems, dragComponentItem } from '@/pages/LowCode/types'
 
-const Items = [
+const Items: componentItems[] = [
   {
     key: 'general',
     title: '通用',
@@ -97,7 +98,13 @@ const Items = [
   }
 ]
 
-const Index = () => {
+type Props = {
+  handleComponentDragEnd: (event: React.DragEvent, componentItem: dragComponentItem) => void
+}
+
+const Index = (props: Props) => {
+  const { handleComponentDragEnd } = props
+
   return (
     <div className={styles.container}>
       {Items.map(item => {
@@ -108,7 +115,14 @@ const Index = () => {
             <div className={styles.componentGroup}>
               {item.components.map(componentItem => {
                 return (
-                  <div key={componentItem.value} className={styles.componentItem} draggable={true}>
+                  <div
+                    key={componentItem.value}
+                    className={styles.componentItem}
+                    draggable
+                    onDragEnd={event =>
+                      handleComponentDragEnd(event, { ...componentItem, componentType: 'form' })
+                    }
+                  >
                     {componentItem.label}
                   </div>
                 )

@@ -3,13 +3,21 @@ import styles from './index.modules.less'
 import { Tabs } from 'antd'
 import './index.modules.less'
 import FormComponents from '@/pages/LowCode/ComponentsArea/FormComponents'
+import { dragComponentItem } from '@/pages/LowCode/types'
+import { UTILS_WIDTH } from '@/pages/LowCode/constants'
 
-const Index = () => {
+type Props = {
+  handleComponentDragEnd: (event: React.DragEvent, componentItem: dragComponentItem) => void
+}
+
+const Index = (props: Props) => {
+  const { handleComponentDragEnd } = props
+
   const tabItems = [
     {
       key: 'form',
       label: '表单',
-      children: <FormComponents />
+      children: <FormComponents handleComponentDragEnd={handleComponentDragEnd} />
     },
     {
       key: 'chart',
@@ -19,7 +27,7 @@ const Index = () => {
   ]
 
   return (
-    <div className={styles.container}>
+    <div className={styles.container} style={{ width: UTILS_WIDTH }}>
       <Tabs items={tabItems} />
     </div>
   )

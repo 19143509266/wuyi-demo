@@ -1,14 +1,13 @@
-import React, { useState, useEffect } from 'react'
+import React from 'react'
 import styles from './index.less'
+import { UTILS_WIDTH } from '@/pages/LowCode/constants'
 
 const Index = () => {
-  const [state, setState] = useState(null)
-
-  useEffect(() => {
-    // Component did mount logic
-  }, [])
-
-  return <div className={styles.container}>{/* Your code here */}</div>
+  return (
+    <div className={styles.container} style={{ width: UTILS_WIDTH }}>
+      {/* Your code here */}
+    </div>
+  )
 }
 
 export default Index

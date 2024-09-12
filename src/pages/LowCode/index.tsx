@@ -12,6 +12,8 @@ import {
 import { v4 as uuidv4 } from 'uuid'
 import { ConfigProvider, Form } from 'antd'
 import zhCN from 'antd/locale/zh_CN'
+import 'react-grid-layout/css/styles.css'
+import 'react-resizable/css/styles.css'
 
 const Index = () => {
   const [layout, setLayout] = useState<layoutItem[]>([])

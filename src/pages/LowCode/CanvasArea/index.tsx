@@ -6,8 +6,6 @@ import { GRID_COLS, GRID_ROW_HEIGHT, RESIZE_HANDLES, UTILS_WIDTH } from '@/pages
 import CustomComponent from '@/pages/LowCode/CanvasArea/CustomComponent'
 import EditBar from '@/pages/LowCode/CanvasArea/EditBar'
 import { Form, FormInstance } from 'antd'
-import 'react-grid-layout/css/styles.css'
-import 'react-resizable/css/styles.css'
 
 type Props = {
   layout: layoutItem[]

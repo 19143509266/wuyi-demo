@@ -36,7 +36,7 @@ const CustomComponent = (props: Props) => {
     switch (type) {
       case 'form-item':
         return (
-          <Form.Item name={componentItem.i} label={componentItem.componentType}>
+          <Form.Item name={componentItem.i} label={componentItem?.customAttr?.label}>
             <ComponentToRender {...componentItem.props} />
           </Form.Item>
         )

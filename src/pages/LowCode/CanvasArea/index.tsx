@@ -6,6 +6,8 @@ import { GRID_COLS, GRID_ROW_HEIGHT, RESIZE_HANDLES, UTILS_WIDTH } from '@/pages
 import CustomComponent from '@/pages/LowCode/CanvasArea/CustomComponent'
 import EditBar from '@/pages/LowCode/CanvasArea/EditBar'
 import { Form, FormInstance } from 'antd'
+import 'react-grid-layout/css/styles.css'
+import 'react-resizable/css/styles.css'
 
 type Props = {
   layout: layoutItem[]
@@ -59,48 +61,48 @@ const Index = (props: Props) => {
 
   return (
     <div className={styles.container} style={{ width: `calc(100% - ${UTILS_WIDTH * 2}px)` }}>
-      {/*<Form form={form}>*/}
-      <GridLayout
-        className="layout"
-        layout={layout}
-        cols={GRID_COLS}
-        rowHeight={GRID_ROW_HEIGHT}
-        width={width}
-        onLayoutChange={handleLayoutChange}
-        draggableHandle={`.${styles['drag-handle']}`}
-        // margin={[0, 0]} // 设置为 [0, 0] 以移除网格项之间的间隙
-        // containerPadding={[0, 0]} // 设置为 [0, 0] 以移除容器内边距
-      >
-        {layout.map(item => {
-          return (
-            <div
-              key={item.id}
-              style={{ background: '#e6f7ff' }}
-              onClick={e => {
-                e.stopPropagation()
-                setCurComponent(item)
-              }}
-            >
-              {curComponent?.id === item.i && (
-                <EditBar componentItem={item} handleEditComponent={handleEditComponent} />
-              )}
+      <Form form={form}>
+        <GridLayout
+          className="layout"
+          layout={layout}
+          cols={GRID_COLS}
+          rowHeight={GRID_ROW_HEIGHT}
+          width={width}
+          onLayoutChange={handleLayoutChange}
+          draggableHandle={`.${styles['drag-handle']}`}
+          // margin={[0, 0]} // 设置为 [0, 0] 以移除网格项之间的间隙
+          // containerPadding={[0, 0]} // 设置为 [0, 0] 以移除容器内边距
+        >
+          {layout.map(item => {
+            return (
               <div
-                className={styles['grid-item']}
-                style={curComponent?.id === item.i ? { outline: '1px solid #70c0ff' } : {}}
+                key={item.id}
+                style={{ background: '#e6f7ff' }}
+                onClick={e => {
+                  e.stopPropagation()
+                  setCurComponent(item)
+                }}
               >
-                <div className={`${styles['drag-handle']} ${styles['top']}`}></div>
-                <div className={`${styles['drag-handle']} ${styles['bottom']}`}></div>
-                <div className={`${styles['drag-handle']} ${styles['left']}`}></div>
-                <div className={`${styles['drag-handle']} ${styles['right']}`}></div>
-                <div className={styles['grid-item-content']}>
-                  <CustomComponent componentItem={item} form={form} />
+                {curComponent?.id === item.i && (
+                  <EditBar componentItem={item} handleEditComponent={handleEditComponent} />
+                )}
+                <div
+                  className={styles['grid-item']}
+                  style={curComponent?.id === item.i ? { outline: '1px solid #70c0ff' } : {}}
+                >
+                  <div className={`${styles['drag-handle']} ${styles['top']}`}></div>
+                  <div className={`${styles['drag-handle']} ${styles['bottom']}`}></div>
+                  <div className={`${styles['drag-handle']} ${styles['left']}`}></div>
+                  <div className={`${styles['drag-handle']} ${styles['right']}`}></div>
+                  <div className={styles['grid-item-content']}>
+                    <CustomComponent componentItem={item} form={form} />
+                  </div>
                 </div>
               </div>
-            </div>
-          )
-        })}
-      </GridLayout>
-      {/*</Form>*/}
+            )
+          })}
+        </GridLayout>
+      </Form>
     </div>
   )
 }

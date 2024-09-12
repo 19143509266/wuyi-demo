@@ -69,21 +69,21 @@ const Index = () => {
 
   return (
     <div style={{ width: '100%', height: '100%', display: 'flex' }}>
-      <ConfigProvider locale={zhCN}>
-        <ComponentsArea handleComponentDragEnd={handleComponentDragEnd} />
-        <CanvasArea
-          layout={layout}
-          setLayout={setLayout}
-          curComponent={curComponent}
-          setCurComponent={setCurComponent}
-          form={form}
-        />
-        <ConfigArea
-          key={curComponent?.id}
-          curComponent={curComponent}
-          setCurComponent={setCurComponent}
-        />
-      </ConfigProvider>
+      {/*<ConfigProvider locale={zhCN}>*/}
+      <ComponentsArea handleComponentDragEnd={handleComponentDragEnd} />
+      <CanvasArea
+        layout={layout}
+        setLayout={setLayout}
+        curComponent={curComponent}
+        setCurComponent={setCurComponent}
+        form={form}
+      />
+      <ConfigArea
+        key={curComponent?.id}
+        curComponent={curComponent}
+        setCurComponent={setCurComponent}
+      />
+      {/*</ConfigProvider>*/}
     </div>
   )
 }

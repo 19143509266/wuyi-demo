@@ -12,12 +12,14 @@ type Item = {
 }
 
 type Props = {
+  name: string
   options: Item[]
   setCurComponent: React.Dispatch<React.SetStateAction<curComponentType>>
+  isTree: boolean
 }
 
-const TreeDatasource = (props: Props) => {
-  const { options, setCurComponent } = props
+const DatasourceSet = (props: Props) => {
+  const { name, options, setCurComponent, isTree } = props
   const [addOpen, setAddOpen] = useState(false)
   const [curKey, setCurKey] = useState<string | null>(null)
   const [form] = Form.useForm()
@@ -34,25 +36,24 @@ const TreeDatasource = (props: Props) => {
           {nodeData?.label}(key: {nodeData?.key})
         </div>
         <Space>
-          <PlusOutlined
-            onClick={e => {
-              e.stopPropagation()
-              setCurKey(nodeData?.key)
-              setAddOpen(true)
-            }}
-          />
+          {isTree && (
+            <PlusOutlined
+              onClick={e => {
+                e.stopPropagation()
+                setCurKey(nodeData?.key)
+                setAddOpen(true)
+              }}
+            />
+          )}
           <DeleteOutlined
             onClick={e => {
               e.stopPropagation()
               setCurComponent(prev => {
                 if (prev) {
-                  const updatedOptions = removeItemFromTree(
-                    prev?.props?.options || [],
-                    nodeData?.key
-                  )
+                  const updatedOptions = removeItemFromTree(prev?.props[name] || [], nodeData?.key)
                   return {
                     ...prev,
-                    props: { ...prev.props, options: updatedOptions }
+                    props: { ...prev.props, [name]: updatedOptions }
                   }
                 }
                 return null
@@ -74,10 +75,10 @@ const TreeDatasource = (props: Props) => {
       const newItem = { ...values, key: values.value, children: [] }
       setCurComponent(prev => {
         if (prev) {
-          const updatedOptions = addItemToTree(prev?.props?.options || [], curKey, newItem)
+          const updatedOptions = addItemToTree(prev?.props[name] || [], curKey, newItem)
           return {
             ...prev,
-            props: { ...prev.props, options: updatedOptions }
+            props: { ...prev.props, [name]: updatedOptions }
           }
         }
         return null
@@ -91,7 +92,13 @@ const TreeDatasource = (props: Props) => {
       {options?.length === 0 ? (
         <div style={{ textAlign: 'center' }}>暂无数据</div>
       ) : (
-        <Tree treeData={options} blockNode showLine titleRender={titleRender} defaultExpandAll />
+        <Tree
+          treeData={options}
+          blockNode
+          showLine={isTree}
+          titleRender={titleRender}
+          defaultExpandAll
+        />
       )}
       <Button type={'link'} size={'small'} icon={<PlusSquareTwoTone />} onClick={handleAdd}>
         添加
@@ -119,4 +126,4 @@ const TreeDatasource = (props: Props) => {
   )
 }
 
-export default TreeDatasource
+export default DatasourceSet

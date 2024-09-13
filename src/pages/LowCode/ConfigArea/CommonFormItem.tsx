@@ -1,6 +1,6 @@
-import { Form, Input, Radio, Select, Switch } from 'antd'
+import { Form, Input, InputNumber, Radio, Select, Switch } from 'antd'
 import { curComponentType } from '@/pages/LowCode/types'
-import TreeDatasource from '@/pages/LowCode/ConfigArea/TreeDatasource'
+import DatasourceSet from '@/pages/LowCode/ConfigArea/DatasourceSet'
 import React from 'react'
 
 type CommonType = {
@@ -13,6 +13,14 @@ type CommonType = {
 type SelectType = CommonType & { options: Array<{ label: string; value: string }> }
 
 type InputItem = { type: 'input'; label: string; name: string; attr: 'props' | 'customAttr' }
+
+type InputNumberItem = {
+  type: 'input-number'
+  label: string
+  name: string
+  attr: 'props' | 'customAttr'
+}
+
 type SelectItem = {
   type: 'select'
   label: string
@@ -29,22 +37,34 @@ type RadioItem = {
   options: Array<{ label: string; value: string }>
 }
 
-type TreeItem = {
-  type: 'tree'
+type TreeDatasourceItem = {
+  type: 'tree-datasource'
   name: string
 }
 
-export type commonItem = InputItem | SelectItem | SwitchItem | RadioItem | TreeItem
+type datasourceItem = {
+  type: 'datasource'
+  name: string
+}
+
+export type commonItem =
+  | InputItem
+  | SelectItem
+  | SwitchItem
+  | RadioItem
+  | InputNumberItem
+  | TreeDatasourceItem
+  | datasourceItem
 
 export const FormInput = ({ label, name, value, onChange }: CommonType) => (
   <Form.Item label={label} name={name} initialValue={value}>
-    <Input onChange={e => onChange(e.target.value)} />
+    <Input onChange={e => onChange(e.target.value)} placeholder="请输入" />
   </Form.Item>
 )
 
 export const FormSelect = ({ label, name, value, options, onChange }: SelectType) => (
   <Form.Item label={label} name={name} initialValue={value}>
-    <Select options={options} onChange={val => onChange(val)} />
+    <Select options={options} onChange={val => onChange(val)} placeholder="请选择" />
   </Form.Item>
 )
 
@@ -60,6 +80,12 @@ export const FormRadio = ({ label, name, value, options, onChange }: SelectType)
   </Form.Item>
 )
 
+export const FormInputNumber = ({ label, name, value, onChange }: CommonType) => (
+  <Form.Item label={label} name={name} initialValue={value} layout={'horizontal'}>
+    <InputNumber onChange={e => onChange(e)} />
+  </Form.Item>
+)
+
 export const renderFormItem = (
   item: commonItem,
   curComponent: curComponentType,
@@ -67,7 +93,7 @@ export const renderFormItem = (
   setCurComponent: React.Dispatch<React.SetStateAction<curComponentType>>
 ) => {
   let value: any
-  if (item.type !== 'tree') {
+  if (item.type !== 'datasource' && item.type !== 'tree-datasource') {
     value = curComponent?.[item.attr]?.[item.name]
   }
 
@@ -110,9 +136,32 @@ export const renderFormItem = (
           onChange={val => handleChangeCurComponent(item.attr, item.name, val)}
         />
       )
-    case 'tree':
+    case 'input-number':
       return (
-        <TreeDatasource options={curComponent?.props?.options} setCurComponent={setCurComponent} />
+        <FormInputNumber
+          label={item.label}
+          name={item.name}
+          value={value}
+          onChange={val => handleChangeCurComponent(item.attr, item.name, val)}
+        />
+      )
+    case 'tree-datasource':
+      return (
+        <DatasourceSet
+          name={item?.name}
+          options={curComponent?.props[item?.name]}
+          setCurComponent={setCurComponent}
+          isTree={true}
+        />
+      )
+    case 'datasource':
+      return (
+        <DatasourceSet
+          name={item?.name}
+          options={curComponent?.props[item?.name]}
+          setCurComponent={setCurComponent}
+          isTree={false}
+        />
       )
     default:
       return null

@@ -12,7 +12,18 @@ type Props = {
 const CustomComponent = (props: Props) => {
   const { componentItem, form } = props
 
-  const ComponentToRender = (Antd as any)[componentItem.componentType]
+  const getComponent = () => {
+    switch (componentItem.componentType) {
+      case 'Checkbox':
+        return Antd.Checkbox.Group
+      case 'Radio':
+        return Antd.Radio.Group
+      default:
+        return (Antd as any)[componentItem.componentType]
+    }
+  }
+
+  const ComponentToRender = getComponent()
 
   if (!ComponentToRender) {
     return <div>Invalid component type: {componentItem.componentType}</div> // 处理未知的组件类型

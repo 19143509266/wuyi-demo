@@ -58,7 +58,7 @@ export const COMPONENT_DEFAULT_SETTINGS: any = {
       event: null
     },
     configItems: [
-      { type: 'input', label: '名称', name: 'name', attr: 'props' },
+      { type: 'input', label: '名称', name: 'label', attr: 'customAttr' },
       {
         type: 'select',
         label: '按钮类型',
@@ -131,7 +131,7 @@ export const COMPONENT_DEFAULT_SETTINGS: any = {
         ],
         attr: 'customAttr'
       },
-      { type: 'tree', name: 'options' },
+      { type: 'tree-datasource', name: 'options' },
       { type: 'input', label: '名称', name: 'label', attr: 'customAttr' },
       { type: 'input', label: '占位符', name: 'placeholder', attr: 'props' },
       { type: 'switch', label: '搜索', name: 'showSearch', attr: 'props' },
@@ -146,6 +146,180 @@ export const COMPONENT_DEFAULT_SETTINGS: any = {
         ],
         attr: 'props'
       }
+    ]
+  },
+  Checkbox: {
+    props: {
+      options: [
+        { label: '选项1', value: '1', key: '1' },
+        { label: '选项2', value: '2', key: '2' }
+      ]
+    },
+    customAttr: { label: 'Checkbox', dataMode: 'static' },
+    configItems: [
+      {
+        type: 'radio',
+        label: '',
+        name: 'dataMode',
+        options: [
+          { label: '静态数据', value: 'static' },
+          { label: '动态数据', value: 'dynamic' }
+        ],
+        attr: 'customAttr'
+      },
+      { type: 'datasource', name: 'options' },
+      { type: 'input', label: '名称', name: 'label', attr: 'customAttr' }
+    ]
+  },
+  DatePicker: {
+    props: {},
+    customAttr: { label: 'DatePicker' },
+    configItems: [{ type: 'input', label: '名称', name: 'label', attr: 'customAttr' }]
+  },
+  Input: {
+    props: {
+      addonBefore: null,
+      addonAfter: null,
+      maxLength: null,
+      showCount: false,
+      allowClear: false,
+      placeholder: '请输入'
+    },
+    customAttr: { label: 'Input' },
+    configItems: [
+      { type: 'input', label: '名称', name: 'label', attr: 'customAttr' },
+      { type: 'input', label: '占位符', name: 'placeholder', attr: 'props' },
+      { type: 'input', label: '前置标签', name: 'addonBefore', attr: 'props' },
+      { type: 'input', label: '后置标签', name: 'addonAfter', attr: 'props' },
+      { type: 'input-number', label: '最大长度', name: 'maxLength', attr: 'props' },
+      { type: 'switch', label: '展示字数', name: 'showCount', attr: 'props' },
+      { type: 'switch', label: '可清除', name: 'allowClear', attr: 'props' }
+    ]
+  },
+  InputNumber: {
+    props: {},
+    customAttr: { label: 'InputNumber' },
+    configItems: [{ type: 'input', label: '名称', name: 'label', attr: 'customAttr' }]
+  },
+  Radio: {
+    props: {
+      options: [
+        { label: '选项1', value: '1', key: '1' },
+        { label: '选项2', value: '2', key: '2' }
+      ]
+    },
+    customAttr: { label: 'Radio', dataMode: 'static' },
+    configItems: [
+      {
+        type: 'radio',
+        label: '',
+        name: 'dataMode',
+        options: [
+          { label: '静态数据', value: 'static' },
+          { label: '动态数据', value: 'dynamic' }
+        ],
+        attr: 'customAttr'
+      },
+      { type: 'datasource', name: 'options' },
+      { type: 'input', label: '名称', name: 'label', attr: 'customAttr' }
+    ]
+  },
+  Rate: {
+    props: {},
+    customAttr: { label: 'Rate' },
+    configItems: [{ type: 'input', label: '名称', name: 'label', attr: 'customAttr' }]
+  },
+  Select: {
+    props: {
+      options: [
+        { label: '选项1', value: '1', key: '1' },
+        { label: '选项2', value: '2', key: '2' }
+      ],
+      placeholder: '请选择',
+      allowClear: false,
+      showSearch: false,
+      mode: 'single'
+    },
+    customAttr: { label: 'Select', dataMode: 'static' },
+    configItems: [
+      {
+        type: 'radio',
+        label: '',
+        name: 'dataMode',
+        options: [
+          { label: '静态数据', value: 'static' },
+          { label: '动态数据', value: 'dynamic' }
+        ],
+        attr: 'customAttr'
+      },
+      { type: 'datasource', name: 'options' },
+      { type: 'input', label: '名称', name: 'label', attr: 'customAttr' },
+      { type: 'input', label: '占位符', name: 'placeholder', attr: 'props' },
+      { type: 'switch', label: '可清除', name: 'allowClear', attr: 'props' },
+      { type: 'switch', label: '搜索', name: 'showSearch', attr: 'props' },
+      {
+        type: 'radio',
+        label: '模式',
+        name: 'mode',
+        attr: 'props',
+        options: [
+          { label: '单选', value: 'single' },
+          { label: '多选', value: 'multiple' }
+        ]
+      }
+    ]
+  },
+  Slider: {
+    props: {},
+    customAttr: { label: 'Slider' },
+    configItems: [{ type: 'input', label: '名称', name: 'label', attr: 'customAttr' }]
+  },
+  Switch: {
+    props: {},
+    customAttr: { label: 'Switch' },
+    configItems: [{ type: 'input', label: '名称', name: 'label', attr: 'customAttr' }]
+  },
+  TimePicker: {
+    props: {},
+    customAttr: { label: 'TimePicker' },
+    configItems: [{ type: 'input', label: '名称', name: 'label', attr: 'customAttr' }]
+  },
+  TreeSelect: {
+    props: {
+      treeData: [
+        {
+          label: '选项1',
+          value: '1',
+          key: '1',
+          children: [{ label: '选项1-1', value: '1-1', key: '1-1', children: [] }]
+        }
+      ],
+      placeholder: '请选择',
+      allowClear: false,
+      showSearch: false,
+      multiple: false
+    },
+    customAttr: {
+      dataMode: 'static',
+      label: 'TreeSelect'
+    },
+    configItems: [
+      {
+        type: 'radio',
+        label: '',
+        name: 'dataMode',
+        options: [
+          { label: '静态数据', value: 'static' },
+          { label: '动态数据', value: 'dynamic' }
+        ],
+        attr: 'customAttr'
+      },
+      { type: 'tree-datasource', name: 'treeData' },
+      { type: 'input', label: '名称', name: 'label', attr: 'customAttr' },
+      { type: 'input', label: '占位符', name: 'placeholder', attr: 'props' },
+      { type: 'switch', label: '可清除', name: 'allowClear', attr: 'props' },
+      { type: 'switch', label: '搜索', name: 'showSearch', attr: 'props' },
+      { type: 'switch', label: '多选', name: 'multiple', attr: 'props' }
     ]
   }
 }

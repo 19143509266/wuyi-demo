@@ -321,5 +321,34 @@ export const COMPONENT_DEFAULT_SETTINGS: any = {
       { type: 'switch', label: '搜索', name: 'showSearch', attr: 'props' },
       { type: 'switch', label: '多选', name: 'multiple', attr: 'props' }
     ]
+  },
+  Avatar: {
+    props: {
+      alt: '无法显示',
+      shape: 'circle',
+      size: 32,
+      src: ''
+    },
+    customAttr: {},
+    configItems: [
+      { type: 'input', label: '错误显示', name: 'alt', attr: 'props' },
+      {
+        type: 'radio',
+        label: '形状',
+        name: 'shape',
+        attr: 'props',
+        options: [
+          { label: '圆形', value: 'circle' },
+          { label: '方形', value: 'square' }
+        ]
+      },
+      { type: 'input-number', label: '大小', name: 'size', attr: 'props' },
+      { type: 'input', label: '地址', name: 'src', attr: 'props' }
+    ]
+  },
+  Calendar: {
+    props: {},
+    customAttr: {},
+    configItems: []
   }
 }

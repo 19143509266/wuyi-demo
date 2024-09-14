@@ -6,6 +6,7 @@ import { curComponentType, dragComponentItem, layoutItem } from '@/pages/LowCode
 import {
   COMPONENT_DEFAULT_SETTINGS,
   GRID_COLS,
+  GRID_ROW_HEIGHT,
   RESIZE_HANDLES,
   UTILS_WIDTH
 } from '@/pages/LowCode/constants'
@@ -19,14 +20,16 @@ const Index = () => {
   const [layout, setLayout] = useState<layoutItem[]>([])
   const [curComponent, setCurComponent] = useState<curComponentType>(null)
   const [form] = Form.useForm()
+
   const handleComponentDragEnd = (event: React.DragEvent, componentItem: dragComponentItem) => {
     const canvasWidth = window.innerWidth - UTILS_WIDTH * 2
     const left = event.clientX - UTILS_WIDTH
     const col = Math.ceil((left / canvasWidth) * GRID_COLS)
     if (col > 0 && col <= GRID_COLS) {
+      const y = Math.ceil(event.clientY / GRID_ROW_HEIGHT)
       const newItem = {
         x: col,
-        y: 0,
+        y: y,
         w: 6,
         h: 3,
         id: uuidv4(),

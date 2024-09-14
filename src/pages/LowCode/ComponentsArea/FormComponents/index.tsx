@@ -55,7 +55,7 @@ const Items: componentItems[] = [
     title: '数据展示',
     components: [
       { label: '头像', value: 'Avatar', type: 'data-display' },
-      { label: '徽标数', value: 'Badge', type: 'data-display' },
+      // { label: '徽标数', value: 'Badge', type: 'data-display' },
       { label: '日历', value: 'Calendar', type: 'data-display' },
       { label: '卡片', value: 'Card', type: 'data-display' },
       { label: '走马灯', value: 'Carousel', type: 'data-display' },

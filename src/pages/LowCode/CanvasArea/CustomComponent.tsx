@@ -67,9 +67,17 @@ const CustomComponent = (props: Props) => {
         )
       case 'data-display':
         return (
-          <Form.Item>
+          <div
+            style={{
+              width: '100%',
+              height: '100%',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center'
+            }}
+          >
             <ComponentToRender {...componentItem.props} />
-          </Form.Item>
+          </div>
         )
       default:
         return <div>Invalid component type:</div>

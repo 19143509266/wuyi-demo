@@ -7,7 +7,7 @@ export default defineConfig({
   routes: [
     {
       path: '/',
-      redirect: '/low-code'
+      redirect: '/demo-block'
     },
     {
       name: 'canvas',
@@ -15,7 +15,7 @@ export default defineConfig({
       component: './Canvas'
     },
     {
-      name: 'drag',
+      name: '拖拽',
       path: '/drag',
       component: './Drag'
     },
@@ -25,19 +25,24 @@ export default defineConfig({
       component: './ReactGridLayout'
     },
     {
-      name: 'condition-relation',
+      name: '条件关系',
       path: '/condition-relation',
       component: './ConditionRelation'
     },
     {
-      name: 'two-chart-echarts',
+      name: '两个图表的echarts',
       path: '/two-chart-echarts',
       component: './TwoChartEcharts'
     },
     {
-      name: 'low-code',
+      name: '低代码',
       path: '/low-code',
       component: './LowCode'
+    },
+    {
+      name: '二次封装组件demo',
+      path: '/demo-block',
+      component: './DemoBlock'
     }
   ],
   npmClient: 'pnpm',

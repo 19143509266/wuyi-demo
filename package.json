@@ -16,6 +16,7 @@
     "ahooks": "^3.8.1",
     "antd": "^5.20.0",
     "echarts": "^5.5.1",
+    "react-draggable": "^4.4.6",
     "react-grid-layout": "^1.4.4",
     "react-resizable": "^3.0.5",
     "umi": "^4.3.3",

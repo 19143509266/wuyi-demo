@@ -30,29 +30,9 @@ export default defineConfig({
       component: './ConditionRelation'
     },
     {
-      name: 'demo',
-      path: '/demo',
-      component: './Demo'
-    },
-    {
-      name: 'iframe',
-      path: '/iframe',
-      component: './Iframe'
-    },
-    {
-      name: 'antv/x6',
-      path: '/antv-x6',
-      component: './AntvX6'
-    },
-    {
-      name: 'pixi',
-      path: '/pixi',
-      component: './Pixi'
-    },
-    {
-      name: 'disable-devtool',
-      path: '/disable-devtool',
-      component: './DisableDevtool'
+      name: 'two-chart-echarts',
+      path: '/two-chart-echarts',
+      component: './TwoChartEcharts'
     },
     {
       name: 'low-code',

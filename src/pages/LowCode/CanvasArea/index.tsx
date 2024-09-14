@@ -2,10 +2,11 @@ import React, { useState, useEffect } from 'react'
 import styles from './index.less'
 import GridLayout, { Layout } from 'react-grid-layout'
 import { curComponentType, layoutItem } from '@/pages/LowCode/types'
-import { GRID_COLS, GRID_ROW_HEIGHT, RESIZE_HANDLES, UTILS_WIDTH } from '@/pages/LowCode/constants'
+import { RESIZE_HANDLES, UTILS_WIDTH } from '@/pages/LowCode/constants'
 import CustomComponent from '@/pages/LowCode/CanvasArea/CustomComponent'
 import EditBar from '@/pages/LowCode/CanvasArea/EditBar'
 import { Form, FormInstance } from 'antd'
+import { useModel } from 'umi'
 
 type Props = {
   layout: layoutItem[]
@@ -17,6 +18,7 @@ type Props = {
 
 const Index = (props: Props) => {
   const { layout, setLayout, curComponent, setCurComponent, form } = props
+  const { gridCols, gridRowHeight } = useModel('low_code')
   const [width, setWidth] = useState(window.innerWidth - 520)
 
   useEffect(() => {
@@ -63,8 +65,8 @@ const Index = (props: Props) => {
         <GridLayout
           className="layout"
           layout={layout}
-          cols={GRID_COLS}
-          rowHeight={GRID_ROW_HEIGHT}
+          cols={gridCols}
+          rowHeight={gridRowHeight}
           width={width}
           onLayoutChange={handleLayoutChange}
           draggableHandle={`.${styles['drag-handle']}`}

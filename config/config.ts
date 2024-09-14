@@ -1,6 +1,9 @@
 import { defineConfig } from 'umi'
 
 export default defineConfig({
+  plugins: ['@umijs/plugins/dist/initial-state', '@umijs/plugins/dist/model'],
+  initialState: {},
+  model: {},
   routes: [
     {
       path: '/',

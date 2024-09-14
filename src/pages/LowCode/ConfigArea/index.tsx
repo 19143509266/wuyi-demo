@@ -4,6 +4,7 @@ import { Tabs } from 'antd'
 import { UTILS_WIDTH } from '@/pages/LowCode/constants'
 import ComponentConfig from '@/pages/LowCode/ConfigArea/ComponentConfig'
 import { curComponentType } from '@/pages/LowCode/types'
+import GlobalConfig from '@/pages/LowCode/ConfigArea/GlobalConfig'
 
 type Props = {
   curComponent: curComponentType
@@ -22,7 +23,7 @@ const Index = (props: Props) => {
     {
       key: 'chart',
       label: '整体配置',
-      children: 'Tab 2 content'
+      children: <GlobalConfig />
     }
   ]
 

@@ -3,20 +3,16 @@ import ComponentsArea from '@/pages/LowCode/ComponentsArea'
 import CanvasArea from '@/pages/LowCode/CanvasArea'
 import ConfigArea from '@/pages/LowCode/ConfigArea'
 import { curComponentType, dragComponentItem, layoutItem } from '@/pages/LowCode/types'
-import {
-  COMPONENT_DEFAULT_SETTINGS,
-  GRID_COLS,
-  GRID_ROW_HEIGHT,
-  RESIZE_HANDLES,
-  UTILS_WIDTH
-} from '@/pages/LowCode/constants'
+import { COMPONENT_DEFAULT_SETTINGS, RESIZE_HANDLES, UTILS_WIDTH } from '@/pages/LowCode/constants'
 import { v4 as uuidv4 } from 'uuid'
 import { ConfigProvider, Form } from 'antd'
 import zhCN from 'antd/locale/zh_CN'
 import 'react-grid-layout/css/styles.css'
 import 'react-resizable/css/styles.css'
+import { useModel } from 'umi'
 
 const Index = () => {
+  const { gridCols, gridRowHeight } = useModel('low_code')
   const [layout, setLayout] = useState<layoutItem[]>([])
   const [curComponent, setCurComponent] = useState<curComponentType>(null)
   const [form] = Form.useForm()
@@ -24,9 +20,9 @@ const Index = () => {
   const handleComponentDragEnd = (event: React.DragEvent, componentItem: dragComponentItem) => {
     const canvasWidth = window.innerWidth - UTILS_WIDTH * 2
     const left = event.clientX - UTILS_WIDTH
-    const col = Math.ceil((left / canvasWidth) * GRID_COLS)
-    if (col > 0 && col <= GRID_COLS) {
-      const y = Math.ceil(event.clientY / GRID_ROW_HEIGHT)
+    const col = Math.ceil((left / canvasWidth) * gridCols)
+    if (col > 0 && col <= gridCols) {
+      const y = Math.ceil(event.clientY / gridRowHeight)
       const newItem = {
         x: col,
         y: y,

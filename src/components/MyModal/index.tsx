@@ -62,7 +62,7 @@ const Index: React.FC<Props> = props => {
       ? {
           width: '100%',
           height: '100%',
-          style: { ...style, maxWidth: '100%' },
+          style: { ...style, maxWidth: '100%', top: 0 },
           styles: {
             ...styles,
             content: { ...content, borderRadius: 0, height: '100vh', overflow: 'auto' },

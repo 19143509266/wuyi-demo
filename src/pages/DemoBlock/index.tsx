@@ -1,17 +1,7 @@
 import React from 'react'
-import MyProTable from '@/components/MyProTable'
+import MyModal from '@/components/MyModal'
 
 const Index = () => {
-  const data = () => {
-    const res = []
-    for (let i = 0; i < 100; i++) {
-      res.push({
-        name: 'name' + i,
-        age: i
-      })
-    }
-    return res
-  }
   return (
     <div
       style={{
@@ -22,15 +12,7 @@ const Index = () => {
         justifyContent: 'center'
       }}
     >
-      <MyProTable
-        columns={[
-          { title: 'name', dataIndex: 'name' },
-          { title: 'age', dataIndex: 'age' }
-        ]}
-        dataSource={data()}
-        rowKey={'name'}
-        autoHeight
-      />
+      <MyModal open={true} showFullScreen draggable></MyModal>
     </div>
   )
 }

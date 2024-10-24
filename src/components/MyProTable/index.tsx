@@ -1,22 +1,13 @@
-import React, { useEffect, useMemo, useRef, useState } from 'react'
+import React, { useMemo, useRef, useState } from 'react'
 import { ProTable } from '@ant-design/pro-components'
-import { useDebounceFn } from 'ahooks'
+import { getMargin } from '@/utils'
+import { useDebounceResize } from '@/hooks/useDebounceResize'
 
 type ProTablePropsType = React.ComponentProps<typeof ProTable>
 
 type Props = ProTablePropsType & {
   autoHeight?: boolean
   offsetHeight?: number
-}
-
-const getMargin = (element: HTMLElement) => {
-  if (element) {
-    const style = getComputedStyle(element)
-    const marginTop = parseFloat(style.marginTop)
-    const marginBottom = parseFloat(style.marginBottom)
-    return marginTop + marginBottom
-  }
-  return 0
 }
 
 const Index = (props: Props) => {
@@ -49,29 +40,9 @@ const Index = (props: Props) => {
       }
     }
   }
-
-  const { run } = useDebounceFn(handleResize, { wait: 200 })
-
-  useEffect(() => {
-    const observer = new ResizeObserver(() => run())
-
-    const mutationObserver = new MutationObserver(run)
-
-    const container = containerRef.current
-    if (container) {
-      observer.observe(container)
-      mutationObserver.observe(container, { childList: true, subtree: true })
-    }
-
-    run()
-
-    return () => {
-      if (container) {
-        observer.unobserve(container)
-        mutationObserver.disconnect()
-      }
-    }
-  }, [autoHeight, run])
+  if (autoHeight) {
+    useDebounceResize({ resizeFn: handleResize, containerRef, deptParams: [autoHeight] })
+  }
 
   const newScroll = useMemo(() => {
     if (autoHeight && height) {

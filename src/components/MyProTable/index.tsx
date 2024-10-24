@@ -1,4 +1,4 @@
-import React, { useMemo, useState, useEffect, useRef } from 'react'
+import React, { useEffect, useMemo, useRef, useState } from 'react'
 import { ProTable } from '@ant-design/pro-components'
 import { useDebounceFn } from 'ahooks'
 
@@ -41,6 +41,10 @@ const Index = (props: Props) => {
         const totalHeight = searchFormHeight + toolbarHeight + theadHeight + paginationHeight
         const newHeight =
           container.clientHeight - totalHeight - getMargin(searchForm) - offsetHeight
+        const antTableBody: HTMLElement | null = container.querySelector('.ant-table-body')
+        if (antTableBody) {
+          antTableBody.style.height = `${newHeight}px`
+        }
         setHeight(newHeight)
       }
     }
@@ -48,13 +52,8 @@ const Index = (props: Props) => {
 
   const { run } = useDebounceFn(handleResize, { wait: 200 })
 
-  console.log(height, '==================height')
-  console.log(containerRef.current?.clientHeight, '==================clientHeight')
-
   useEffect(() => {
-    const observer = new ResizeObserver(() => {
-      run()
-    })
+    const observer = new ResizeObserver(() => run())
 
     const mutationObserver = new MutationObserver(run)
 

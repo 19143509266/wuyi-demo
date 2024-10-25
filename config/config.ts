@@ -4,6 +4,7 @@ export default defineConfig({
   plugins: ['@umijs/plugins/dist/initial-state', '@umijs/plugins/dist/model'],
   initialState: {},
   model: {},
+  mako: {},
   routes: [
     {
       path: '/',

@@ -38,7 +38,7 @@ const Index = () => {
         justifyContent: 'center'
       }}
     >
-      <MyTabs items={items} style={{ width: '100%', height: '100%' }} autoFitContent />
+      <MyTabs items={items} style={{ width: '100%', height: '100%' }} />
     </div>
   )
 }

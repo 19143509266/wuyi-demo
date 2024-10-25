@@ -1,10 +1,17 @@
 import { defineConfig } from 'umi'
 
 export default defineConfig({
-  plugins: ['@umijs/plugins/dist/initial-state', '@umijs/plugins/dist/model'],
+  plugins: ['@umijs/plugins/dist/initial-state', '@umijs/plugins/dist/model', '@umijs/plugins/dist/antd'],
   initialState: {},
   model: {},
   mako: {},
+  antd: {
+    theme: {
+      token: {
+        fontFamily: '"KoiFont","PingFang SC", "Microsoft YaHei", "Arial", sans-serif'
+      }
+    }
+  },
   routes: [
     {
       path: '/',

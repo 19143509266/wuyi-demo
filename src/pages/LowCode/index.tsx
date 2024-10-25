@@ -79,11 +79,7 @@ const Index = () => {
           setCurComponent={setCurComponent}
           form={form}
         />
-        <ConfigArea
-          key={curComponent?.id}
-          curComponent={curComponent}
-          setCurComponent={setCurComponent}
-        />
+        <ConfigArea key={curComponent?.id} curComponent={curComponent} setCurComponent={setCurComponent} />
       </ConfigProvider>
     </div>
   )

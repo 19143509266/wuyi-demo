@@ -14,5 +14,6 @@ export default defineConfig({
         return resource.includes('.less');
       },
     },
+    assetPrefix: '/wuyi-demo/',
   },
 });

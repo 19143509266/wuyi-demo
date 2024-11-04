@@ -5,7 +5,11 @@ const Home = () => {
   return (
     <div style={{ display: 'flex', flexDirection: 'column' }}>
       {routes.map((item) => {
-        return <Link to={item.path}>{item.name}</Link>;
+        return (
+          <Link to={item.path} key={item.path}>
+            {item.name}
+          </Link>
+        );
       })}
     </div>
   );

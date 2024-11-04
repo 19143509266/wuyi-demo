@@ -7,6 +7,7 @@ import zhCN from 'antd/locale/zh_CN';
 const rootEl = document.getElementById('root');
 if (rootEl) {
   const root = ReactDOM.createRoot(rootEl);
+  console.log('加载root...');
   root.render(
     <React.StrictMode>
       <ConfigProvider

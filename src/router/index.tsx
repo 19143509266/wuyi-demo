@@ -7,12 +7,13 @@ import TwoChartEcharts from '../pages/TwoChartEcharts';
 import LowCode from '../pages/LowCode';
 import DemoBlock from '../pages/DemoBlock';
 import { dataflowProvider } from '@/useModel';
+import Home from '@/pages/Home';
 
-const routes = [
+export const routes = [
   {
     name: '首页',
     path: '/',
-    element: <div>首页</div>,
+    element: <Home />,
   },
   {
     name: 'canvas',
@@ -20,7 +21,7 @@ const routes = [
     element: <Canvas />,
   },
   {
-    name: '拖拽',
+    name: 'drag',
     path: '/drag',
     element: <Drag />,
   },
@@ -40,12 +41,12 @@ const routes = [
     element: <TwoChartEcharts />,
   },
   {
-    name: '低代码',
+    name: 'low-code',
     path: '/low-code',
     element: <LowCode />,
   },
   {
-    name: '二次封装组件demo',
+    name: 'demo',
     path: '/demo-block',
     element: <DemoBlock />,
   },

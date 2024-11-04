@@ -7,6 +7,9 @@ export default defineConfig({
   plugins: [pluginReact(), pluginLess(), pluginNodePolyfill()],
   source: {
     preEntry: './src/global.less',
+    entry: {
+      index: './src/index.tsx',
+    },
   },
   output: {
     cssModules: {

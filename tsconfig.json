@@ -1,3 +1,28 @@
 {
-  "extends": "./src/.umi/tsconfig.json",
+  "compilerOptions": {
+    "lib": ["DOM", "ES2020"],
+    "jsx": "react-jsx",
+    "target": "ES2020",
+    "noEmit": true,
+    "skipLibCheck": true,
+    "useDefineForClassFields": true,
+
+    /* modules */
+    "module": "ESNext",
+    "isolatedModules": true,
+    "resolveJsonModule": true,
+    "moduleResolution": "Bundler",
+    "allowImportingTsExtensions": true,
+
+    /* type checking */
+    "strict": true,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+
+    "baseUrl": "./src", // 设置为 src 目录
+    "paths": {
+      "@/*": ["*"] // 设置 @ 别名指向 src 目录
+    }
+  },
+  "include": ["src"]
 }

@@ -1,34 +1,35 @@
 {
+  "name": "wuyi-demo1",
   "private": true,
-  "author": "五一 <982936872@qq.com>",
+  "version": "1.0.0",
   "scripts": {
-    "dev": "cross-env PORT=4869 umi dev",
-    "build": "umi build",
-    "postinstall": "umi setup",
-    "setup": "umi setup",
-    "start": "npm run dev",
-    "build:ts": "tsc"
+    "dev": "rsbuild dev --open",
+    "build": "rsbuild build",
+    "preview": "rsbuild preview"
   },
   "dependencies": {
     "@ant-design/icons": "^5.5.1",
     "@ant-design/pro-components": "^2.8.1",
     "@antv/g2plot": "^2.4.32",
     "ahooks": "^3.8.1",
-    "antd": "^5.21.5",
+    "antd": "^5.21.6",
     "echarts": "^5.5.1",
-    "react-draggable": "^4.4.6",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
     "react-grid-layout": "^1.5.0",
     "react-resizable": "^3.0.5",
-    "umi": "^4.3.28",
-    "uuid": "^10.0.0"
+    "react-router-dom": "^6.27.0",
+    "uuid": "^11.0.2"
   },
   "devDependencies": {
+    "@rsbuild/core": "^1.0.18",
+    "@rsbuild/plugin-less": "^1.1.0",
+    "@rsbuild/plugin-node-polyfill": "^1.2.0",
+    "@rsbuild/plugin-react": "^1.0.5",
     "@types/react": "^18.3.12",
     "@types/react-dom": "^18.3.1",
     "@types/react-grid-layout": "^1.3.5",
     "@types/uuid": "^10.0.0",
-    "@umijs/plugins": "^4.3.28",
-    "cross-env": "^7.0.3",
     "typescript": "^5.6.3"
   }
 }

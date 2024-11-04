@@ -1,10 +1,10 @@
-import React from 'react'
-import { Form, InputNumber } from 'antd'
-import { useModel } from 'umi'
+import { Form, InputNumber } from 'antd';
+import { useModel } from '@/useModel';
 
 const GlobalConfig = () => {
-  const { gridCols, setGridCols, gridRowHeight, setGridRowHeight } = useModel('low_code')
-  const [form] = Form.useForm()
+  const { gridCols, setGridCols, gridRowHeight, setGridRowHeight } =
+    useModel('low_code');
+  const [form] = Form.useForm();
 
   return (
     <div style={{ padding: 12, boxSizing: 'border-box' }}>
@@ -12,26 +12,30 @@ const GlobalConfig = () => {
         <Form.Item label="网格列数" name={'gridCols'} initialValue={gridCols}>
           <InputNumber
             size={'small'}
-            onChange={e => {
+            onChange={(e) => {
               if (typeof e === 'number') {
-                setGridCols(e)
+                setGridCols(e);
               }
             }}
           />
         </Form.Item>
-        <Form.Item label="网格行高" name={'gridRowHeight'} initialValue={gridRowHeight}>
+        <Form.Item
+          label="网格行高"
+          name={'gridRowHeight'}
+          initialValue={gridRowHeight}
+        >
           <InputNumber
             size={'small'}
-            onChange={e => {
+            onChange={(e) => {
               if (typeof e === 'number') {
-                setGridRowHeight(e)
+                setGridRowHeight(e);
               }
             }}
           />
         </Form.Item>
       </Form>
     </div>
-  )
-}
+  );
+};
 
-export default GlobalConfig
+export default GlobalConfig;

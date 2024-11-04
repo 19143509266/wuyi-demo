@@ -19,19 +19,15 @@ function isEqual(a: any, b: any) {
       return true;
     }
 
-    if (a.constructor === RegExp)
-      return a.source === b.source && a.flags === b.flags;
-    if (a.valueOf !== Object.prototype.valueOf)
-      return a.valueOf() === b.valueOf();
-    if (a.toString !== Object.prototype.toString)
-      return a.toString() === b.toString();
+    if (a.constructor === RegExp) return a.source === b.source && a.flags === b.flags;
+    if (a.valueOf !== Object.prototype.valueOf) return a.valueOf() === b.valueOf();
+    if (a.toString !== Object.prototype.toString) return a.toString() === b.toString();
 
     const keys = Object.keys(a);
     length = keys.length;
     if (length !== Object.keys(b).length) return false;
 
-    for (i = length; i-- !== 0; )
-      if (!Object.prototype.hasOwnProperty.call(b, keys[i])) return false;
+    for (i = length; i-- !== 0; ) if (!Object.prototype.hasOwnProperty.call(b, keys[i])) return false;
 
     for (i = length; i-- !== 0; ) {
       const key = keys[i];
@@ -49,9 +45,7 @@ function isEqual(a: any, b: any) {
 type Models = typeof rawModels;
 
 type GetNamespaces<M> = {
-  [K in keyof M]: M[K] extends { namespace: string }
-    ? M[K]['namespace']
-    : never;
+  [K in keyof M]: M[K] extends { namespace: string } ? M[K]['namespace'] : never;
 }[keyof M];
 
 type Namespaces = GetNamespaces<Models>;
@@ -92,10 +86,7 @@ function Executor(props: ExecutorProps) {
   try {
     data = hook();
   } catch (e) {
-    console.error(
-      `plugin-model: Invoking '${namespace || 'unknown'}' model failed:`,
-      e,
-    );
+    console.error(`plugin-model: Invoking '${namespace || 'unknown'}' model failed:`, e);
   }
 
   // 首次执行时立刻返回初始值
@@ -117,10 +108,7 @@ function Executor(props: ExecutorProps) {
 
 const dispatcher = new Dispatcher();
 
-export function Provider(props: {
-  models: Record<string, any>;
-  children: React.ReactNode;
-}) {
+export function Provider(props: { models: Record<string, any>; children: React.ReactNode }) {
   return (
     <Context.Provider value={{ dispatcher }}>
       {Object.keys(props.models).map((namespace) => {
@@ -154,9 +142,7 @@ type GetModelByNamespace<M, N> = {
 type Model<N> = GetModelByNamespace<Models, N>;
 type Selector<N, S> = (model: Model<N>) => S;
 
-type SelectedModel<N, T> = T extends (...args: any) => any
-  ? ReturnType<NonNullable<T>>
-  : Model<N>;
+type SelectedModel<N, T> = T extends (...args: any) => any ? ReturnType<NonNullable<T>> : Model<N>;
 
 export function useModel<N extends Namespaces>(namespace: N): Model<N>;
 
@@ -173,9 +159,7 @@ export function useModel<N extends Namespaces, S>(
   const selectorRef = useRef(selector);
   selectorRef.current = selector;
   const [state, setState] = useState(() =>
-    selectorRef.current
-      ? selectorRef.current(dispatcher.data[namespace])
-      : dispatcher.data[namespace],
+    selectorRef.current ? selectorRef.current(dispatcher.data[namespace]) : dispatcher.data[namespace],
   );
   const stateRef = useRef<any>(state);
   stateRef.current = state;
@@ -198,9 +182,7 @@ export function useModel<N extends Namespaces, S>(
           dispatcher.update(namespace);
         });
       } else {
-        const currentState = selectorRef.current
-          ? selectorRef.current(data)
-          : data;
+        const currentState = selectorRef.current ? selectorRef.current(data) : data;
         const previousState = stateRef.current;
         if (!isEqual(currentState, previousState)) {
           // 避免 currentState 拿到的数据是老的，从而导致 isEqual 比对逻辑有问题

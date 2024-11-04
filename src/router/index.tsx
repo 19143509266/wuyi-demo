@@ -53,5 +53,6 @@ export const routes = [
 ];
 
 export default function RouterView() {
+  console.log('加载RouterView...');
   return dataflowProvider(useRoutes(routes));
 }

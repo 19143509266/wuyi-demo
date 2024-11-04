@@ -53,5 +53,5 @@ export const routes = [
 ];
 
 export default function RouterView() {
-  return useRoutes(routes);
+  return dataflowProvider(useRoutes(routes));
 }

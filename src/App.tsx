@@ -3,7 +3,7 @@ import RouterView from './router';
 
 const App = () => {
   return (
-    <Router>
+    <Router basename="/wuyi-demo">
       <RouterView />
     </Router>
   );

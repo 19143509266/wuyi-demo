@@ -17,6 +17,8 @@ concurrency:
 jobs:
   build:
     runs-on: ubuntu-latest
+    environment:
+      name: github-pages
 
     steps:
       - name: Checkout
@@ -27,11 +29,17 @@ jobs:
         with:
           node-version: 20
 
-      - name: Install dependencies
-        run: npm i
+      # 安装 pnpm
+      - name: Install pnpm
+        run: npm install -g pnpm
 
+      # 使用 pnpm 安装依赖
+      - name: Install dependencies
+        run: pnpm install
+
+      # 使用 pnpm 构建项目
       - name: Build
-        run: npm run build
+        run: pnpm run build
 
       - name: Setup Pages
         uses: actions/configure-pages@v5
@@ -44,5 +52,3 @@ jobs:
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v4
-        environment:
-          name: github-pages # 添加环境名称

@@ -25,26 +25,28 @@ const Index = (props: Props) => {
   }, []);
 
   const handleLayoutChange = (newLayout: Layout[]) => {
-    setLayout((prev) => {
-      return prev.map((item) => {
-        const newItem = newLayout.find((nItem) => nItem.i === item.i);
-        if (newItem) {
-          const result = {
-            ...item,
-            x: newItem.x,
-            y: newItem.y,
-            h: newItem.h,
-            w: newItem.w,
-            resizeHandles: curComponent?.id === item.i ? RESIZE_HANDLES : item.resizeHandles,
-          };
-          if (result.i === curComponent?.id) {
-            setCurComponent(result);
+    setTimeout(() => {
+      setLayout((prev) => {
+        return prev.map((item) => {
+          const newItem = newLayout.find((nItem) => nItem.i === item.i);
+          if (newItem) {
+            const result = {
+              ...item,
+              x: newItem.x,
+              y: newItem.y,
+              h: newItem.h,
+              w: newItem.w,
+              resizeHandles: curComponent?.id === item.i ? RESIZE_HANDLES : item.resizeHandles,
+            };
+            if (result.i === curComponent?.id) {
+              setCurComponent(result);
+            }
+            return result;
           }
-          return result;
-        }
-        return item;
+          return item;
+        });
       });
-    });
+    }, 0);
   };
 
   const handleEditComponent = (newItem: layoutItem, type: string) => {

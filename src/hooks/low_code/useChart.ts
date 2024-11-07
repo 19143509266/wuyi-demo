@@ -12,7 +12,7 @@ export const useChart = ({ componentItem }: { componentItem: layoutItem }) => {
   if (componentItem.type !== 'chart') return { chartRef: ref };
 
   useEffect(() => {
-    if (componentItem.type === 'chart') {
+    if (componentItem.type === 'chart' && ref.current) {
       const data = componentItem?.viewsData || [];
       switch (componentItem.componentType) {
         case 'line':

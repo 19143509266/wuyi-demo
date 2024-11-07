@@ -1,7 +1,7 @@
-import React from 'react'
-import { Divider } from 'antd'
-import styles from './index.less'
-import { componentItems, dragComponentItem } from '@/pages/LowCode/types'
+import React from 'react';
+import { Divider } from 'antd';
+import styles from '../components.less';
+import { componentItems, dragComponentItem } from '@/pages/LowCode/types';
 
 const Items: componentItems[] = [
   {
@@ -9,13 +9,13 @@ const Items: componentItems[] = [
     title: '通用',
     components: [
       { label: '按钮', value: 'Button', type: 'button' },
-      { label: '图标', value: 'Icon', type: 'icon' }
-    ]
+      { label: '图标', value: 'Icon', type: 'icon' },
+    ],
   },
   {
     key: 'layout',
     title: '布局',
-    components: [{ label: '分割线', value: 'Divider', type: 'layout' }]
+    components: [{ label: '分割线', value: 'Divider', type: 'layout' }],
   },
   // {
   //   key: 'navigation',
@@ -47,8 +47,8 @@ const Items: componentItems[] = [
       { label: '时间选择框', value: 'TimePicker', type: 'form-item' },
       // { label: '穿梭框', value: 'Transfer', type: 'form-item' },
       { label: '树选择', value: 'TreeSelect', type: 'form-item' },
-      { label: '上传', value: 'Upload', type: 'form-item' }
-    ]
+      { label: '上传', value: 'Upload', type: 'form-item' },
+    ],
   },
   {
     key: 'data-display',
@@ -74,9 +74,9 @@ const Items: componentItems[] = [
       { label: '时间轴', value: 'Timeline', type: 'data-display' },
       { label: '文字提示', value: 'Tooltip', type: 'data-display' },
       { label: '漫游式引导', value: 'Tour', type: 'data-display' },
-      { label: '树形控件', value: 'Tree', type: 'data-display' }
-    ]
-  }
+      { label: '树形控件', value: 'Tree', type: 'data-display' },
+    ],
+  },
   // {
   //   key: 'feedback',
   //   title: '反馈',
@@ -94,43 +94,43 @@ const Items: componentItems[] = [
   //     { label: '水印', value: 'Watermark', type: 'feedback' }
   //   ]
   // }
-]
+];
 
 type Props = {
-  handleComponentDragEnd: (event: React.DragEvent, componentItem: dragComponentItem) => void
-}
+  handleComponentDragEnd: (event: React.DragEvent, componentItem: dragComponentItem) => void;
+};
 
 const Index = (props: Props) => {
-  const { handleComponentDragEnd } = props
+  const { handleComponentDragEnd } = props;
 
   return (
     <div className={styles.container}>
-      {Items.map(item => {
+      {Items.map((item) => {
         return (
           <div key={item.key}>
             <div className={styles.groupTitle}>{item.title}</div>
             <Divider className={styles.divider} />
             <div className={styles.componentGroup}>
-              {item.components.map(componentItem => {
+              {item.components.map((componentItem) => {
                 return (
                   <div
                     key={componentItem.value}
                     className={styles.componentItem}
                     draggable
-                    onDragEnd={event =>
+                    onDragEnd={(event) =>
                       handleComponentDragEnd(event, { ...componentItem, componentCategory: 'form' })
                     }
                   >
                     {componentItem.label}
                   </div>
-                )
+                );
               })}
             </div>
           </div>
-        )
+        );
       })}
     </div>
-  )
-}
+  );
+};
 
-export default Index
+export default Index;

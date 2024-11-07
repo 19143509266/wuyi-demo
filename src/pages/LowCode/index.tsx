@@ -26,7 +26,7 @@ const Index = () => {
       const newItem = {
         x: col,
         y: y,
-        w: 6,
+        w: globalConfig.gridCols / 2,
         h: 3,
         id: uuidv4(),
         componentCategory: componentItem.componentCategory,

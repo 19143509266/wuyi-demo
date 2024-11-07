@@ -10,10 +10,9 @@ import zhCN from 'antd/locale/zh_CN';
 import 'react-grid-layout/css/styles.css';
 import 'react-resizable/css/styles.css';
 import { useModel } from '@/useModel';
-import lineData from './1.json';
 
 const Index = () => {
-  const { globalConfig, setLayout, curComponent, setCurComponent } = useModel('low_code');
+  const { globalConfig, setLayout, curComponent, setCurComponent, layout } = useModel('low_code');
   const [form] = Form.useForm();
 
   const handleComponentDragEnd = (event: React.DragEvent, componentItem: dragComponentItem) => {
@@ -35,7 +34,7 @@ const Index = () => {
         customStyle: {},
         props: COMPONENT_DEFAULT_SETTINGS[componentItem.value]?.props || {},
         customAttr: COMPONENT_DEFAULT_SETTINGS[componentItem.value]?.customAttr || {},
-        viewsData: lineData,
+        viewsData: [],
       };
       setCurComponent(newItem);
     }

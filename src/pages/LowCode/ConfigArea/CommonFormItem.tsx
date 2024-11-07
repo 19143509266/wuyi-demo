@@ -1,6 +1,7 @@
-import { Form, Input, InputNumber, Radio, Select, Switch } from 'antd';
+import { Form, FormInstance, Input, InputNumber, Radio, Select, Switch } from 'antd';
 import DatasourceSet from '@/pages/LowCode/ConfigArea/DatasourceSet';
 import { useModel } from '@/useModel';
+import { RequestData } from './RequestData';
 
 type CommonType = {
   label: string;
@@ -45,6 +46,10 @@ type datasourceItem = {
   type: 'datasource';
   name: string;
 };
+type RequestDataItem = {
+  type: 'request-data';
+  name: string;
+};
 
 export type commonItem =
   | InputItem
@@ -53,7 +58,8 @@ export type commonItem =
   | RadioItem
   | InputNumberItem
   | TreeDatasourceItem
-  | datasourceItem;
+  | datasourceItem
+  | RequestDataItem;
 
 export const FormInput = ({ label, name, value, onChange }: CommonType) => (
   <Form.Item label={label} name={name} initialValue={value}>
@@ -88,10 +94,11 @@ export const FormInputNumber = ({ label, name, value, onChange }: CommonType) =>
 export const renderFormItem = (
   item: commonItem,
   handleChangeCurComponent: { (attr: 'props' | 'customAttr', name: string, value: any): void },
+  form: FormInstance,
 ) => {
   const { curComponent } = useModel('low_code');
   let value: any;
-  if (item.type !== 'datasource' && item.type !== 'tree-datasource') {
+  if (item.type !== 'datasource' && item.type !== 'tree-datasource' && item.type !== 'request-data') {
     value = curComponent?.[item.attr]?.[item.name];
   }
 
@@ -147,6 +154,8 @@ export const renderFormItem = (
       return <DatasourceSet name={item?.name} options={curComponent?.props[item?.name]} isTree={true} />;
     case 'datasource':
       return <DatasourceSet name={item?.name} options={curComponent?.props[item?.name]} isTree={false} />;
+    case 'request-data':
+      return <RequestData form={form} />;
     default:
       return null;
   }

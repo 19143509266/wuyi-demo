@@ -1,56 +1,61 @@
 // 通用的添加子节点的函数
-import { message } from 'antd'
+import { message } from 'antd';
 
 export function addItemToTree<T extends { key: string; children?: T[] }>(
   items: T[],
   curKey: string | null,
-  newItem: T
+  newItem: T,
 ): T[] {
   // 校验 newItem 的 key 是否已经存在
   const isKeyExists = (items: T[], key: string): boolean => {
-    return items.some(
-      item => item.key === key || (item.children && isKeyExists(item.children, key))
-    )
-  }
+    return items.some((item) => item.key === key || (item.children && isKeyExists(item.children, key)));
+  };
 
   if (isKeyExists(items, newItem.key)) {
-    message.error('key 已经存在，请重新输入')
-    return items
+    message.error('key 已经存在，请重新输入');
+    return items;
   }
 
   if (curKey === null) {
     // 如果 curKey 为 null，直接将 newItem 添加到根节点下
-    return [...items, newItem]
+    return [...items, newItem];
   }
 
   // 否则，递归查找并添加到指定的 key 下
-  return items.map(item => {
+  return items.map((item) => {
     if (item.key === curKey) {
       // 找到对应的节点并添加新项到 children
       return {
         ...item,
-        children: [...(item.children || []), newItem]
-      }
+        children: [...(item.children || []), newItem],
+      };
     } else if (item.children) {
       // 递归查找子节点
       return {
         ...item,
-        children: addItemToTree(item.children, curKey, newItem)
-      }
+        children: addItemToTree(item.children, curKey, newItem),
+      };
     }
-    return item
-  })
+    return item;
+  });
 }
 
 // 通用的删除节点的函数
-export function removeItemFromTree<T extends { key: string; children?: T[] }>(
-  items: T[],
-  curKey: string
-): T[] {
+export function removeItemFromTree<T extends { key: string; children?: T[] }>(items: T[], curKey: string): T[] {
   return items
-    .filter(item => item.key !== curKey) // 过滤掉 key 匹配的节点
-    .map(item => ({
+    .filter((item) => item.key !== curKey) // 过滤掉 key 匹配的节点
+    .map((item) => ({
       ...item,
-      children: item.children ? removeItemFromTree(item.children, curKey) : [] // 递归处理子节点
-    }))
+      children: item.children ? removeItemFromTree(item.children, curKey) : [], // 递归处理子节点
+    }));
 }
+
+// 通用的获取嵌套数据的方法
+export const getNestedData = <T>(obj: T, path: string[]): any => {
+  return path.reduce((acc, key) => {
+    if (acc && typeof acc === 'object' && key in acc) {
+      return (acc as Record<string, any>)[key];
+    }
+    return void 0; // 如果路径不对或找不到，返回 undefined
+  }, obj);
+};

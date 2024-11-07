@@ -352,4 +352,13 @@ export const COMPONENT_DEFAULT_SETTINGS: any = {
     customAttr: {},
     configItems: [],
   },
+  line: {
+    props: {},
+    customAttr: {},
+    configItems: [
+      { type: 'request-data', label: '获取数据地址', name: '获取数据地址', attr: 'customAttr' },
+      { type: 'input', label: 'x轴字段', name: 'xField', attr: 'customAttr' },
+      { type: 'input', label: 'y轴字段', name: 'yField', attr: 'customAttr' },
+    ],
+  },
 };

@@ -10,16 +10,12 @@ import { useModel } from '@/useModel';
 import Header from '@/pages/LowCode/Header';
 
 type Props = {
-  layout: layoutItem[];
-  setLayout: React.Dispatch<React.SetStateAction<layoutItem[]>>;
-  curComponent: curComponentType;
-  setCurComponent: React.Dispatch<React.SetStateAction<curComponentType>>;
   form: FormInstance;
 };
 
 const Index = (props: Props) => {
-  const { layout, setLayout, curComponent, setCurComponent, form } = props;
-  const { globalConfig } = useModel('low_code');
+  const { form } = props;
+  const { globalConfig, layout, setLayout, curComponent, setCurComponent } = useModel('low_code');
   const [width, setWidth] = useState(window.innerWidth - 520);
 
   useEffect(() => {
@@ -62,7 +58,7 @@ const Index = (props: Props) => {
 
   return (
     <div className={styles.container} style={{ width: `calc(100% - ${UTILS_WIDTH * 2}px)` }}>
-      <Header layout={layout} setLayout={setLayout} setCurComponent={setCurComponent} />
+      <Header />
       <div style={{ height: 'calc(100% - 54px)', overflow: 'auto' }}>
         <Form form={form}>
           <GridLayout

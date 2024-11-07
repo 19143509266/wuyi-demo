@@ -5,23 +5,16 @@ import { componentItems, dragComponentItem } from '@/pages/LowCode/types';
 
 const Items: componentItems[] = [
   {
-    key: 'general',
-    title: '通用',
-    components: [],
+    key: 'chart',
+    title: '图表',
+    components: [
+      { label: '折线图', value: 'line', type: 'chart' },
+      { label: '柱状图', value: 'bar', type: 'chart' },
+    ],
   },
   {
-    key: 'layout',
-    title: '布局',
-    components: [],
-  },
-  {
-    key: 'data-entry',
-    title: '数据录入',
-    components: [],
-  },
-  {
-    key: 'data-display',
-    title: '数据展示',
+    key: 'map',
+    title: '地图',
     components: [],
   },
 ];

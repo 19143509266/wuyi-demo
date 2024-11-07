@@ -3,6 +3,7 @@ import * as Antd from 'antd';
 import { Form, FormInstance } from 'antd';
 import styles from './custom_component.less';
 import { useIcon } from '@/hooks/low_code/useIcon';
+import { useChart } from '@/hooks/low_code/useChart';
 
 type Props = {
   componentItem: layoutItem;
@@ -12,6 +13,7 @@ type Props = {
 const CustomComponent = (props: Props) => {
   const { componentItem, form } = props;
   const { IconComponent } = useIcon({ componentItem });
+  const { chartRef } = useChart({ componentItem });
 
   const getComponent = () => {
     switch (componentItem.componentType) {
@@ -27,10 +29,6 @@ const CustomComponent = (props: Props) => {
   };
 
   const ComponentToRender = getComponent();
-
-  if (!ComponentToRender) {
-    return <div>Invalid component type: {componentItem.componentType}</div>; // 处理未知的组件类型
-  }
 
   const handleClick = () => {
     const event = componentItem?.customAttr?.event;
@@ -84,8 +82,10 @@ const CustomComponent = (props: Props) => {
             <ComponentToRender {...componentItem.props} />
           </div>
         );
+      case 'chart':
+        return <div ref={chartRef}></div>;
       default:
-        return <div>Invalid component type:</div>;
+        return <div>未找到组件</div>;
     }
   };
 

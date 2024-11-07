@@ -1,17 +1,8 @@
-import React from 'react';
 import { Button, Space } from 'antd';
-import { curComponentType, layoutItem } from '@/pages/LowCode/types';
 import { useModel } from '@/useModel';
 
-type Props = {
-  layout: layoutItem[];
-  setLayout: React.Dispatch<React.SetStateAction<layoutItem[]>>;
-  setCurComponent: React.Dispatch<React.SetStateAction<curComponentType>>;
-};
-
-const Index: React.FC<Props> = (props) => {
-  const { globalConfig, setGlobalConfig } = useModel('low_code');
-  const { layout, setLayout, setCurComponent } = props;
+const Index = () => {
+  const { globalConfig, setGlobalConfig, layout, setLayout, setCurComponent } = useModel('low_code');
 
   const handleExport = () => {
     const schema = { layout, globalConfig };

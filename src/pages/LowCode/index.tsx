@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import ComponentsArea from '@/pages/LowCode/ComponentsArea';
 import CanvasArea from '@/pages/LowCode/CanvasArea';
 import ConfigArea from '@/pages/LowCode/ConfigArea';
-import { curComponentType, dragComponentItem, layoutItem } from '@/pages/LowCode/types';
+import { curComponentType, dragComponentItem } from '@/pages/LowCode/types';
 import { COMPONENT_DEFAULT_SETTINGS, RESIZE_HANDLES, UTILS_WIDTH } from '@/pages/LowCode/constants';
 import { v4 as uuidv4 } from 'uuid';
 import { ConfigProvider, Form } from 'antd';
@@ -12,9 +12,7 @@ import 'react-resizable/css/styles.css';
 import { useModel } from '@/useModel';
 
 const Index = () => {
-  const { globalConfig } = useModel('low_code');
-  const [layout, setLayout] = useState<layoutItem[]>([]);
-  const [curComponent, setCurComponent] = useState<curComponentType>(null);
+  const { globalConfig, setLayout, curComponent, setCurComponent } = useModel('low_code');
   const [form] = Form.useForm();
 
   const handleComponentDragEnd = (event: React.DragEvent, componentItem: dragComponentItem) => {
@@ -80,14 +78,8 @@ const Index = () => {
     <div style={{ width: '100%', height: '100%', display: 'flex' }}>
       <ConfigProvider locale={zhCN}>
         <ComponentsArea handleComponentDragEnd={handleComponentDragEnd} />
-        <CanvasArea
-          layout={layout}
-          setLayout={setLayout}
-          curComponent={curComponent}
-          setCurComponent={setCurComponent}
-          form={form}
-        />
-        <ConfigArea key={curComponent?.id} curComponent={curComponent} setCurComponent={setCurComponent} />
+        <CanvasArea form={form} />
+        <ConfigArea key={curComponent?.id} />
       </ConfigProvider>
     </div>
   );

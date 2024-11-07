@@ -1,6 +1,7 @@
 import React from 'react';
 import { Button, Space } from 'antd';
 import { curComponentType, layoutItem } from '@/pages/LowCode/types';
+import { useModel } from '@/useModel';
 
 type Props = {
   layout: layoutItem[];
@@ -9,10 +10,12 @@ type Props = {
 };
 
 const Index: React.FC<Props> = (props) => {
+  const { globalConfig, setGlobalConfig } = useModel('low_code');
   const { layout, setLayout, setCurComponent } = props;
 
   const handleExport = () => {
-    const json = JSON.stringify(layout, null, 2);
+    const schema = { layout, globalConfig };
+    const json = JSON.stringify(schema, null, 2);
     const blob = new Blob([json], { type: 'application/json' });
     const url = URL.createObjectURL(blob);
     const link = document.createElement('a');
@@ -36,9 +39,10 @@ const Index: React.FC<Props> = (props) => {
         reader.onload = (e) => {
           try {
             const json = JSON.parse(e.target?.result as string); // 类型断言
-            const cur = json.find((item: any) => item?.resizeHandles?.length > 0);
-            setLayout(json);
+            const cur = json.layout.find((item: any) => item?.resizeHandles?.length > 0);
+            setGlobalConfig(json.globalConfig);
             setCurComponent(cur);
+            setTimeout(() => setLayout(json.layout), 0);
           } catch (error) {
             console.error('文件解析失败：', error);
             alert('导入的文件格式不正确，请选择有效的 JSON 文件。');

@@ -2,16 +2,8 @@ import React, { useEffect, useState } from 'react';
 import ComponentsArea from '@/pages/LowCode/ComponentsArea';
 import CanvasArea from '@/pages/LowCode/CanvasArea';
 import ConfigArea from '@/pages/LowCode/ConfigArea';
-import {
-  curComponentType,
-  dragComponentItem,
-  layoutItem,
-} from '@/pages/LowCode/types';
-import {
-  COMPONENT_DEFAULT_SETTINGS,
-  RESIZE_HANDLES,
-  UTILS_WIDTH,
-} from '@/pages/LowCode/constants';
+import { curComponentType, dragComponentItem, layoutItem } from '@/pages/LowCode/types';
+import { COMPONENT_DEFAULT_SETTINGS, RESIZE_HANDLES, UTILS_WIDTH } from '@/pages/LowCode/constants';
 import { v4 as uuidv4 } from 'uuid';
 import { ConfigProvider, Form } from 'antd';
 import zhCN from 'antd/locale/zh_CN';
@@ -20,20 +12,17 @@ import 'react-resizable/css/styles.css';
 import { useModel } from '@/useModel';
 
 const Index = () => {
-  const { gridCols, gridRowHeight } = useModel('low_code');
+  const { globalConfig } = useModel('low_code');
   const [layout, setLayout] = useState<layoutItem[]>([]);
   const [curComponent, setCurComponent] = useState<curComponentType>(null);
   const [form] = Form.useForm();
 
-  const handleComponentDragEnd = (
-    event: React.DragEvent,
-    componentItem: dragComponentItem,
-  ) => {
+  const handleComponentDragEnd = (event: React.DragEvent, componentItem: dragComponentItem) => {
     const canvasWidth = window.innerWidth - UTILS_WIDTH * 2;
     const left = event.clientX - UTILS_WIDTH;
-    const col = Math.ceil((left / canvasWidth) * gridCols);
-    if (col > 0 && col <= gridCols) {
-      const y = Math.ceil(event.clientY / gridRowHeight);
+    const col = Math.ceil((left / canvasWidth) * globalConfig.gridCols);
+    if (col > 0 && col <= globalConfig.gridCols) {
+      const y = Math.ceil(event.clientY / globalConfig.gridRowHeight);
       const newItem = {
         x: col,
         y: y,
@@ -46,8 +35,7 @@ const Index = () => {
         resizeHandles: [],
         customStyle: {},
         props: COMPONENT_DEFAULT_SETTINGS[componentItem.value]?.props || {},
-        customAttr:
-          COMPONENT_DEFAULT_SETTINGS[componentItem.value]?.customAttr || {},
+        customAttr: COMPONENT_DEFAULT_SETTINGS[componentItem.value]?.customAttr || {},
       };
       setCurComponent(newItem);
     }
@@ -99,11 +87,7 @@ const Index = () => {
           setCurComponent={setCurComponent}
           form={form}
         />
-        <ConfigArea
-          key={curComponent?.id}
-          curComponent={curComponent}
-          setCurComponent={setCurComponent}
-        />
+        <ConfigArea key={curComponent?.id} curComponent={curComponent} setCurComponent={setCurComponent} />
       </ConfigProvider>
     </div>
   );

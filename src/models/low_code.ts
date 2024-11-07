@@ -1,16 +1,20 @@
-import { useState } from 'react'
+import { useState } from 'react';
+
+type GlobalConfigType = {
+  gridCols: number;
+  gridRowHeight: number;
+};
 
 const LowCode = () => {
-  const [gridCols, setGridCols] = useState<number>(12) // 网格列数
-  const [gridRowHeight, setGridRowHeight] = useState<number>(30) // 网格行高
+  const [globalConfig, setGlobalConfig] = useState<GlobalConfigType>({
+    gridCols: 12,
+    gridRowHeight: 30,
+  });
 
   return {
-    gridCols,
-    setGridCols,
+    globalConfig,
+    setGlobalConfig,
+  };
+};
 
-    gridRowHeight,
-    setGridRowHeight
-  }
-}
-
-export default LowCode
+export default LowCode;

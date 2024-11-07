@@ -48,39 +48,47 @@ const CustomComponent = (props: Props) => {
     switch (type) {
       case 'form-item':
         return (
-          <Form.Item name={componentItem.i} label={componentItem?.customAttr?.label}>
-            <ComponentToRender {...componentItem.props} />
-          </Form.Item>
+          ComponentToRender && (
+            <Form.Item name={componentItem.i} label={componentItem?.customAttr?.label}>
+              <ComponentToRender {...componentItem.props} />
+            </Form.Item>
+          )
         );
       case 'button':
         return (
-          <Form.Item>
-            <ComponentToRender {...componentItem.props} onClick={handleClick}>
-              {componentItem?.customAttr?.label || ''}
-            </ComponentToRender>
-          </Form.Item>
+          ComponentToRender && (
+            <Form.Item>
+              <ComponentToRender {...componentItem.props} onClick={handleClick}>
+                {componentItem?.customAttr?.label || ''}
+              </ComponentToRender>
+            </Form.Item>
+          )
         );
       case 'icon':
-        return <ComponentToRender {...componentItem.props} />;
+        return ComponentToRender && <ComponentToRender {...componentItem.props} />;
       case 'layout':
         return (
-          <Form.Item>
-            <ComponentToRender {...componentItem.props} />
-          </Form.Item>
+          ComponentToRender && (
+            <Form.Item>
+              <ComponentToRender {...componentItem.props} />
+            </Form.Item>
+          )
         );
       case 'data-display':
         return (
-          <div
-            style={{
-              width: '100%',
-              height: '100%',
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-            }}
-          >
-            <ComponentToRender {...componentItem.props} />
-          </div>
+          ComponentToRender && (
+            <div
+              style={{
+                width: '100%',
+                height: '100%',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+              }}
+            >
+              <ComponentToRender {...componentItem.props} />
+            </div>
+          )
         );
       case 'chart':
         return <div ref={chartRef}></div>;

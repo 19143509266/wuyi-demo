@@ -1,7 +1,7 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import styles from './index.less';
 import GridLayout, { Layout } from 'react-grid-layout';
-import { curComponentType, layoutItem } from '@/pages/LowCode/types';
+import { layoutItem } from '@/pages/LowCode/types';
 import { RESIZE_HANDLES, UTILS_WIDTH } from '@/pages/LowCode/constants';
 import CustomComponent from '@/pages/LowCode/CanvasArea/CustomComponent';
 import EditBar from '@/pages/LowCode/CanvasArea/EditBar';

@@ -1,7 +1,5 @@
 import { Form, Input, InputNumber, Radio, Select, Switch } from 'antd';
-import { curComponentType } from '@/pages/LowCode/types';
 import DatasourceSet from '@/pages/LowCode/ConfigArea/DatasourceSet';
-import React from 'react';
 import { useModel } from '@/useModel';
 
 type CommonType = {

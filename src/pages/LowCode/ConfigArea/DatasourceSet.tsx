@@ -1,7 +1,6 @@
 import { Button, Form, Input, Modal, Space, Tree } from 'antd';
 import React, { useState } from 'react';
 import { DeleteOutlined, PlusOutlined, PlusSquareTwoTone } from '@ant-design/icons';
-import { curComponentType } from '@/pages/LowCode/types';
 import { addItemToTree, removeItemFromTree } from '@/pages/LowCode/utils';
 import { useModel } from '@/useModel';
 

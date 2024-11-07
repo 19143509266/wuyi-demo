@@ -1,8 +1,8 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import ComponentsArea from '@/pages/LowCode/ComponentsArea';
 import CanvasArea from '@/pages/LowCode/CanvasArea';
 import ConfigArea from '@/pages/LowCode/ConfigArea';
-import { curComponentType, dragComponentItem } from '@/pages/LowCode/types';
+import { dragComponentItem } from '@/pages/LowCode/types';
 import { COMPONENT_DEFAULT_SETTINGS, RESIZE_HANDLES, UTILS_WIDTH } from '@/pages/LowCode/constants';
 import { v4 as uuidv4 } from 'uuid';
 import { ConfigProvider, Form } from 'antd';

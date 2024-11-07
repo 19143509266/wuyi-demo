@@ -91,7 +91,7 @@ const CustomComponent = (props: Props) => {
           )
         );
       case 'chart':
-        return <div ref={chartRef}></div>;
+        return <div ref={chartRef} style={{ width: '100%', height: '100%' }}></div>;
       default:
         return <div>未找到组件</div>;
     }

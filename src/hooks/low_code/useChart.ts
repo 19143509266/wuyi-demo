@@ -1,12 +1,24 @@
+import { buildLineChart } from '@/pages/LowCode/chart/line';
 import { layoutItem } from '@/pages/LowCode/types';
 import { useEffect, useRef } from 'react';
 
 export const useChart = ({ componentItem }: { componentItem: layoutItem }) => {
-  const ref = useRef<HTMLDivElement>(null);
+  const ref = useRef<any>(null);
 
   useEffect(() => {
     if (componentItem.type === 'chart') {
-      console.log(componentItem);
+      const data = componentItem?.viewsData || [];
+      switch (componentItem.componentType) {
+        case 'line':
+          buildLineChart(ref, data);
+          break;
+        case 'bar':
+          break;
+        case 'pie':
+          break;
+        default:
+          break;
+      }
     }
   }, [componentItem]);
 

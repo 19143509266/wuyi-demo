@@ -1,5 +1,5 @@
-import { DeleteOutlined } from '@ant-design/icons';
-import { Button, Form, FormInstance, Input, InputNumber, Popover, Select, Space, Switch } from 'antd';
+import { DeleteOutlined, QuestionCircleOutlined } from '@ant-design/icons';
+import { Button, Form, FormInstance, Input, InputNumber, Popover, Select, Space, Switch, Tooltip } from 'antd';
 import { useEffect, useState } from 'react';
 import { useModel } from '@/useModel';
 
@@ -119,7 +119,7 @@ export const RequestData = ({ form }: { form: FormInstance }) => {
               />
             </Form.Item>
             <Form.Item noStyle>
-              {['string', 'array', 'boolean'].includes(item.valueType || '') ? (
+              {['string', 'array', 'boolean', 'date'].includes(item.valueType || '') ? (
                 <Input
                   style={{ width: '60%' }}
                   placeholder={
@@ -127,7 +127,18 @@ export const RequestData = ({ form }: { form: FormInstance }) => {
                       ? '输入数组, 以,隔开'
                       : item.valueType === 'boolean'
                       ? '0-false, 1-true'
+                      : item.valueType === 'date'
+                      ? '时间格式'
                       : '请输入参数'
+                  }
+                  suffix={
+                    item.valueType === 'date' ? (
+                      <Tooltip title="可输入时间戳（timestamp）或日期（YYYY-MM-DD HH:mm:ss）">
+                        <QuestionCircleOutlined />
+                      </Tooltip>
+                    ) : (
+                      void 0
+                    )
                   }
                   value={item.value}
                   onChange={(e) => handleChange('params', 'value', e.target.value, index)}

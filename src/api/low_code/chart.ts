@@ -1,4 +1,5 @@
 import request from '@/services/request';
+import dayjs from 'dayjs';
 
 export const chartDataReq = async (reqParams: any) => {
   const { url, method, params = [], headers = [], isFormData = false } = reqParams;
@@ -9,6 +10,16 @@ export const chartDataReq = async (reqParams: any) => {
     }
     if (valueType === 'boolean') {
       return { ...acc, [item.label]: item.value === '1' };
+    }
+    if (valueType === 'date') {
+      const format = item.value;
+      let formattedDate;
+      if (format === 'timestamp') {
+        formattedDate = Date.now();
+      } else {
+        formattedDate = dayjs().format(format);
+      }
+      return { ...acc, [item.label]: formattedDate };
     }
     return { ...acc, [item.label]: item.value };
   }, {});

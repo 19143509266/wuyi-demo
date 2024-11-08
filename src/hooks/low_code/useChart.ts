@@ -3,13 +3,14 @@ import { buildLineChart } from '@/pages/LowCode/chart/line';
 import { layoutItem } from '@/pages/LowCode/types';
 import { getNestedData } from '@/pages/LowCode/utils';
 import { useModel } from '@/useModel';
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
 
 export const useChart = ({ componentItem }: { componentItem: layoutItem }) => {
   const ref = useRef<any>(null);
+  if (componentItem.type !== 'chart') return { chartRef: ref };
   const chartInstance = useRef<any>(null);
   const { setCurComponent } = useModel('low_code');
-  if (componentItem.type !== 'chart') return { chartRef: ref };
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     if (componentItem.type === 'chart' && ref.current) {
@@ -32,12 +33,19 @@ export const useChart = ({ componentItem }: { componentItem: layoutItem }) => {
     if (componentItem?.customAttr?.requestData) {
       const { dataPath } = componentItem?.customAttr?.requestData;
       const path = dataPath?.split('/');
-      chartDataReq(componentItem?.customAttr?.requestData).then((res) => {
-        const viewsData = getNestedData(res, path) || [];
-        setCurComponent((prev: any) => ({ ...prev, viewsData }));
-      });
+      setLoading(true);
+      chartDataReq(componentItem?.customAttr?.requestData)
+        .then((res) => {
+          const viewsData = getNestedData(res, path) || [];
+          setCurComponent((prev: any) => ({ ...prev, viewsData }));
+          setLoading(false);
+        })
+        .catch(() => {
+          setCurComponent((prev: any) => ({ ...prev, viewsData: [] }));
+          setLoading(false);
+        });
     }
   }, [componentItem?.customAttr?.requestData]);
 
-  return { chartRef: ref, chartInstance };
+  return { chartRef: ref, chartInstance, chartLoading: loading };
 };

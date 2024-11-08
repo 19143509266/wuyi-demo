@@ -1,9 +1,10 @@
 import { layoutItem } from '@/pages/LowCode/types';
 import * as Antd from 'antd';
-import { Form, FormInstance } from 'antd';
+import { Form, FormInstance, Spin } from 'antd';
 import styles from './custom_component.less';
 import { useIcon } from '@/hooks/low_code/useIcon';
 import { useChart } from '@/hooks/low_code/useChart';
+import { LoadingOutlined } from '@ant-design/icons';
 
 type Props = {
   componentItem: layoutItem;
@@ -13,7 +14,7 @@ type Props = {
 const CustomComponent = (props: Props) => {
   const { componentItem, form } = props;
   const { IconComponent } = useIcon({ componentItem });
-  const { chartRef } = useChart({ componentItem });
+  const { chartRef, chartLoading } = useChart({ componentItem });
 
   const getComponent = () => {
     switch (componentItem.componentType) {
@@ -91,7 +92,15 @@ const CustomComponent = (props: Props) => {
           )
         );
       case 'chart':
-        return <div ref={chartRef} style={{ width: '100%', height: '100%' }}></div>;
+        return (
+          <Spin
+            spinning={chartLoading}
+            indicator={<LoadingOutlined style={{ fontSize: 48 }} spin />}
+            wrapperClassName={styles.chartSpin}
+          >
+            <div ref={chartRef} style={{ width: '100%', height: '100%' }}></div>
+          </Spin>
+        );
       default:
         return <div>未找到组件</div>;
     }

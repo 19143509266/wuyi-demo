@@ -3,6 +3,8 @@ import { Button, Form, FormInstance, Input, InputNumber, Popover, Select, Space,
 import { useEffect, useState } from 'react';
 import { useModel } from '@/useModel';
 
+type ValueType = 'string' | 'number' | 'date' | 'array' | 'boolean';
+
 export const RequestData = ({ form }: { form: FormInstance }) => {
   const { curComponent, setCurComponent } = useModel('low_code');
   const method = Form.useWatch('method', form);
@@ -11,7 +13,7 @@ export const RequestData = ({ form }: { form: FormInstance }) => {
     {
       label: string;
       value: string | number;
-      valueType?: 'string' | 'number' | 'date';
+      valueType?: ValueType;
       dataFormatType?: string;
     }[]
   >([]);
@@ -27,7 +29,7 @@ export const RequestData = ({ form }: { form: FormInstance }) => {
     setHeaders((prev) => [...prev, { label: '', value: '' }]);
   };
 
-  const handleAddParams = (valueType: 'string' | 'number' | 'date') => {
+  const handleAddParams = (valueType: ValueType) => {
     setParams((prev) => [...prev, { label: '', value: '', valueType }]);
   };
 
@@ -85,7 +87,7 @@ export const RequestData = ({ form }: { form: FormInstance }) => {
             <Form.Item noStyle>
               <Input
                 style={{ width: '30%' }}
-                placeholder="请输入请求头名"
+                placeholder="请求头"
                 value={item.label}
                 onChange={(e) => handleChange('headers', 'label', e.target.value, index)}
               />
@@ -111,16 +113,22 @@ export const RequestData = ({ form }: { form: FormInstance }) => {
             <Form.Item noStyle>
               <Input
                 style={{ width: '30%' }}
-                placeholder="请输入参数名"
+                placeholder="参数名"
                 value={item.label}
                 onChange={(e) => handleChange('params', 'label', e.target.value, index)}
               />
             </Form.Item>
             <Form.Item noStyle>
-              {item.valueType === 'string' ? (
+              {['string', 'array', 'boolean'].includes(item.valueType || '') ? (
                 <Input
                   style={{ width: '60%' }}
-                  placeholder="请输入参数"
+                  placeholder={
+                    item.valueType === 'array'
+                      ? '输入数组, 以,隔开'
+                      : item.valueType === 'boolean'
+                      ? '0-false, 1-true'
+                      : '请输入参数'
+                  }
                   value={item.value}
                   onChange={(e) => handleChange('params', 'value', e.target.value, index)}
                 />
@@ -146,6 +154,12 @@ export const RequestData = ({ form }: { form: FormInstance }) => {
             </Button>
             <Button type="link" onClick={() => handleAddParams('number')}>
               数字类型
+            </Button>
+            <Button type="link" onClick={() => handleAddParams('array')}>
+              数组类型
+            </Button>
+            <Button type="link" onClick={() => handleAddParams('boolean')}>
+              boolean类型
             </Button>
             <Button type="link" onClick={() => handleAddParams('date')}>
               实时时间

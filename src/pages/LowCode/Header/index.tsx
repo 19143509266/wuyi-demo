@@ -5,7 +5,8 @@ const Index = () => {
   const { globalConfig, setGlobalConfig, layout, setLayout, setCurComponent } = useModel('low_code');
 
   const handleExport = () => {
-    const schema = { layout, globalConfig };
+    const exportLayout = layout.map((item: any) => ({ ...item, viewsData: [] }));
+    const schema = { layout: exportLayout, globalConfig };
     const json = JSON.stringify(schema, null, 2);
     const blob = new Blob([json], { type: 'application/json' });
     const url = URL.createObjectURL(blob);

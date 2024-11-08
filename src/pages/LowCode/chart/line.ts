@@ -1,7 +1,7 @@
 import { Line } from '@antv/g2plot';
 
 export const buildLineChart = (container: any, data: any[], chartInstance: any, customAttr: any) => {
-  const { xField = '', yField = '' } = customAttr;
+  const { xField = 'x', yField = 'y' } = customAttr;
 
   if (!chartInstance.current) {
     chartInstance.current = new Line(container, {
@@ -18,5 +18,5 @@ export const buildLineChart = (container: any, data: any[], chartInstance: any, 
     chartInstance.current?.update({ xField, yField });
   }
 
-  chartInstance.current.render();
+  chartInstance.current?.render();
 };

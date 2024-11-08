@@ -13,9 +13,9 @@ export const useChart = ({ componentItem }: { componentItem: layoutItem }) => {
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
-    if (componentItem.type === 'chart' && ref.current) {
+    if (componentItem?.type === 'chart' && ref.current) {
       const data = componentItem?.viewsData || [];
-      switch (componentItem.componentType) {
+      switch (componentItem?.componentType) {
         case 'line':
           buildLineChart(ref.current, data, chartInstance, componentItem?.customAttr);
           break;
@@ -27,7 +27,7 @@ export const useChart = ({ componentItem }: { componentItem: layoutItem }) => {
           break;
       }
     }
-  }, [componentItem]);
+  }, [componentItem?.type, componentItem?.componentType, componentItem?.viewsData]);
 
   useEffect(() => {
     if (componentItem?.customAttr?.requestData) {
